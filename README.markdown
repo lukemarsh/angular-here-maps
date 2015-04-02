@@ -57,7 +57,7 @@ Make your application depend on it:
 var app = angular.module('myApp', ['angular-here-maps']);
 ```
 
-Add some configuration settings
+Add some configuration settings:
 ```js
 .config(function(MapConfigProvider) {
     MapConfigProvider.setOptions({
@@ -66,6 +66,22 @@ Add some configuration settings
         libraries: 'ui,mapevents,pano'
     });
 })
+```
+
+include the map directive in your html:
+```html
+<map zoom="map.zoom" center="map.center"></map>
+```
+
+default center and zoom for the maps:
+```js
+$scope.map = {
+  zoom : 14,
+  center : { 
+    lng: -0.135559,
+    lat: 51.513872
+  }
+};
 ```
 
 If you plan to hack on the directives or want to run the example, first thing to do is to install NPM dependencies:
