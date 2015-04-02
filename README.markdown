@@ -95,4 +95,4 @@ branch and issuing a PR with the updated documentation page, or by opening an is
 
 ### Branching Scheme
 
-- master: points to the active targeted next release branch (1.0.0)
+- master: points to the active targeted next release branch (1.0.3)
