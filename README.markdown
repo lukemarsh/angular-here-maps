@@ -57,6 +57,17 @@ Make your application depend on it:
 var app = angular.module('myApp', ['angular-here-maps']);
 ```
 
+Add some configuration settings
+```js
+.config(function(MapConfigProvider) {
+    MapConfigProvider.setOptions({
+        appId: 'your Here Maps app id',
+        appCode: 'your Here Maps app code',
+        libraries: 'ui,mapevents,pano'
+    });
+})
+```
+
 If you plan to hack on the directives or want to run the example, first thing to do is to install NPM dependencies:
 
 ```shell
