@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/lukemarsh/angular-here-maps.png?label=ready&title=Ready)](https://waffle.io/lukemarsh/angular-here-maps)
 # angular-here-maps
 
 > AngularJS directives for Nokia Here Maps
