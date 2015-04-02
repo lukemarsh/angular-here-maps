@@ -30,7 +30,11 @@ angular.module('angular-here-maps')
       restrict: 'EA',
       transclude: true,
       controller: function($scope, $element) {
-        var defaultLayers;
+        var defaultLayers,
+          behavior,
+          ui;
+
+        var modules = MapConfig.libraries().split(',');
 
         var platform = new H.service.Platform({
           'app_id': MapConfig.appId(),
@@ -38,18 +42,12 @@ angular.module('angular-here-maps')
           'ppi': 640
         });
 
-        platform.configure(H.map.render.panorama.RenderEngine);
-
         defaultLayers = platform.createDefaultLayers();
 
         var map = new H.Map(
           $element[0],
           defaultLayers.normal.map
         );
-
-        this.behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-        this.ui = H.ui.UI.createDefault(map, defaultLayers);
 
         if ($scope.zoom) {
           map.setZoom($scope.zoom);
@@ -61,6 +59,18 @@ angular.module('angular-here-maps')
 
         window.addEventListener('resize', function () {
           map.getViewPort().resize();
+        });
+
+        _.each(modules, function(module) {
+          if (module === 'ui') {
+            ui = H.ui.UI.createDefault(map, defaultLayers);
+          }
+          if (module === 'pano') {
+            platform.configure(H.map.render.panorama.RenderEngine);
+          }
+          if (module === 'mapevents') {
+            behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+          }
         });
       }
     };
@@ -88,6 +98,9 @@ angular.module('angular-here-maps')
         },
         appCode: function(appCode) {
           return mapOptions.appCode || appCode;
+        },
+        libraries: function(libraries) {
+          return mapOptions.libraries || libraries;
         }
       };
     };

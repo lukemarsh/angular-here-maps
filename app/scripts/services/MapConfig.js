@@ -21,6 +21,9 @@ angular.module('angular-here-maps')
         },
         appCode: function(appCode) {
           return mapOptions.appCode || appCode;
+        },
+        libraries: function(libraries) {
+          return mapOptions.libraries || libraries;
         }
       };
     };

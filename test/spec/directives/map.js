@@ -22,6 +22,10 @@ describe('Directive: map', function () {
     MapConfig.appCode = function() {
       return 'WT6i13vXvx1JbFky92wqjg';
     };
+
+    MapConfig.libraries = function() {
+      return 'ui,mapevents,pano';
+    };
   }));
 
   function compileDirective(tpl) {

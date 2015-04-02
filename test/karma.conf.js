@@ -20,6 +20,7 @@ module.exports = function(config) {
     files: [
       'bower_components/bind-polyfill/index.js',
       'bower_components/angular/angular.js',
+      'bower_components/lodash/lodash.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'http://js.api.here.com/v3/3.0/mapsjs-core.js',
       'http://js.api.here.com/v3/3.0/mapsjs-service.js',
