@@ -1,7 +1,7 @@
 {
   "name": "angular-here-maps",
   "main": "./dist/angular-here-maps.min.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "dependencies": {
     "angular": "~1.2.0",
     "json3": "~3.3.1",
@@ -9,13 +9,13 @@
   },
   "ignore":[
     ".bowerrc",
+    ".jshintrc",
     ".editorconfig",
     ".gitattributes",
     "Gruntfile.js",
     ".gitignore",
-    "travis.yml",
+    ".travis.yml",
     "*.html",
-    "*.markdown",
     "examples",
     "app",
     "test",
