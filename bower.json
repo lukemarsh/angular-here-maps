@@ -1,7 +1,7 @@
 {
   "name": "angular-here-maps",
   "main": "./dist/angular-here-maps.min.js",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "dependencies": {
     "angular": "~1.2.0",
     "json3": "~3.3.1",
