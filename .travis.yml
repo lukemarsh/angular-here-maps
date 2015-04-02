@@ -3,4 +3,5 @@ node_js:
   - '0.10'
 before_script:
   - 'npm install -g bower grunt-cli'
+  - git config --global url."https://".insteadOf git://
   - 'bower install'
