@@ -19,10 +19,13 @@ angular.module('angular-here-maps')
       transclude: true,
       controller: function($scope, $element) {
         var defaultLayers,
-          behavior,
-          ui;
+          modules,
+          ui,
+          behavior;
 
-        var modules = MapConfig.libraries().split(',');
+        if (MapConfig.libraries()) {
+          modules = MapConfig.libraries().split(',');
+        }
 
         var platform = new H.service.Platform({
           'app_id': MapConfig.appId(),

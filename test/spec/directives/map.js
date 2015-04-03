@@ -7,25 +7,11 @@ describe('Directive: map', function () {
 
   var element,
     scope,
-    compile,
-    MapConfig;
+    compile;
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _MapConfig_) {
+  beforeEach(inject(function (_$rootScope_, _$compile_) {
     scope = _$rootScope_;
     compile = _$compile_;
-    MapConfig = _MapConfig_;
-
-    MapConfig.appId = function() {
-      return 'Q4azLpJlFAp5pkcEbagu';
-    };
-
-    MapConfig.appCode = function() {
-      return 'WT6i13vXvx1JbFky92wqjg';
-    };
-
-    MapConfig.libraries = function() {
-      return 'ui,mapevents,pano';
-    };
   }));
 
   function compileDirective(tpl) {
