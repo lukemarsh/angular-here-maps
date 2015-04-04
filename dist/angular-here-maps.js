@@ -38,15 +38,17 @@ angular.module('angular-here-maps')
 
         var platform = new H.service.Platform({
           'app_id': MapConfig.appId(),
-          'app_code': MapConfig.appCode(),
-          'ppi': 640
+          'app_code': MapConfig.appCode()
         });
 
-        defaultLayers = platform.createDefaultLayers();
+        defaultLayers = platform.createDefaultLayers(512, MapConfig.pixelPerInch());
 
         var map = new H.Map(
           $element[0],
-          defaultLayers.normal.map
+          defaultLayers.normal.map,
+          {
+            pixelRatio: MapConfig.pixelRatio()
+          }
         );
 
         if ($scope.zoom) {
@@ -98,6 +100,12 @@ angular.module('angular-here-maps')
         },
         appCode: function(appCode) {
           return mapOptions.appCode || appCode;
+        },
+        pixelRatio: function(ratio) {
+          return mapOptions.pixelRatio || ratio || 1;
+        },
+        pixelPerInch: function(pixel) {
+          return mapOptions.pixelPerInch || pixel || 72;
         },
         libraries: function(libraries) {
           return mapOptions.libraries || libraries;
