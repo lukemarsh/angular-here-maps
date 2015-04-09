@@ -63,7 +63,9 @@ Add some configuration settings:
     MapConfigProvider.setOptions({
         appId: 'your Here Maps app id',
         appCode: 'your Here Maps app code',
-        libraries: 'ui,mapevents,pano'
+        libraries: 'ui,mapevents,pano',
+        pixelRatio: 2, // Optional (Default: 1)
+        pixelPerInch: 320 // Optional (Default: 72)
     });
 })
 ```

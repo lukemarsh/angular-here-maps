@@ -41,15 +41,17 @@ angular.module('angular-here-maps')
 
         var platform = new H.service.Platform({
           'app_id': MapConfig.appId(),
-          'app_code': MapConfig.appCode(),
-          'ppi': 640
+          'app_code': MapConfig.appCode()
         });
 
-        defaultLayers = platform.createDefaultLayers();
+        defaultLayers = platform.createDefaultLayers(512, MapConfig.pixelPerInch());
 
         this.map = new H.Map(
           $element[0],
-          defaultLayers.normal.map
+          defaultLayers.normal.map,
+          {
+            pixelRatio: MapConfig.pixelRatio()
+          }
         );
 
         if ($scope.zoom) {
@@ -97,30 +99,6 @@ angular.module('angular-here-maps')
       restrict: 'E',
       link: function(scope, element, attrs, mapController) {
         var marker;
-      	// var addDotToMap = function() {
-       //    if (scope.icon && scope.icon.type === 'html') {
-       //      var dot = document.createElement(scope.icon.element);
-       //      //dot.className = scope.icon.className;
-       //      var icon = new H.map.DomIcon(dot);
-       //      var marker = new H.map.DomMarker(scope.coordinates, {icon: icon});
-       //      mapController.map.addObject(marker);
-       //    }
-       //  };
-
-        // var addCircleToMap = function(){
-        //   return mapController.map.addObject(new H.map.Circle(
-        //     {lat:scope.coordinates.lat, lng:scope.coordinates.lng},
-        //     // The radius of the circle in meters
-        //     scope.radius,
-        //     {
-        //       style: {
-        //         strokeColor: 'rgb(0, 37, 102)', // Color of the perimeter
-        //         lineWidth: 2,
-        //         fillColor: 'rgba(0, 37, 102, 0.05)'  // Color of the circle
-        //       }
-        //     }
-        //   ));
-        // };
 
       	var addMarker = function() {
           if (scope.coordinates) {
@@ -166,6 +144,12 @@ angular.module('angular-here-maps')
         },
         appCode: function(appCode) {
           return mapOptions.appCode || appCode;
+        },
+        pixelRatio: function(ratio) {
+          return mapOptions.pixelRatio || ratio;
+        },
+        pixelPerInch: function(pixel) {
+          return mapOptions.pixelPerInch || pixel;
         },
         libraries: function(libraries) {
           return mapOptions.libraries || libraries;

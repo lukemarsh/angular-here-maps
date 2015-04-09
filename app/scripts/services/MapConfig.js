@@ -22,6 +22,12 @@ angular.module('angular-here-maps')
         appCode: function(appCode) {
           return mapOptions.appCode || appCode;
         },
+        pixelRatio: function(ratio) {
+          return mapOptions.pixelRatio || ratio;
+        },
+        pixelPerInch: function(pixel) {
+          return mapOptions.pixelPerInch || pixel;
+        },
         libraries: function(libraries) {
           return mapOptions.libraries || libraries;
         }
