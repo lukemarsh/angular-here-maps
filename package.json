@@ -1,7 +1,11 @@
 {
   "name": "angularheremaps",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "abbrev": "^1.0.5",
+    "graceful-fs": "^3.0.6",
+    "inherits": "^2.0.1"
+  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",

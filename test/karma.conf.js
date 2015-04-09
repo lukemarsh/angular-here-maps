@@ -27,7 +27,6 @@ module.exports = function(config) {
       'http://js.api.here.com/v3/3.0/mapsjs-mapevents.js',
       'http://js.api.here.com/v3/3.0/mapsjs-ui.js',
       'http://js.api.here.com/v3/3.0/mapsjs-pano.js',
-      'dist/angular-here-maps.min.js',
       'app/scripts/**/*.js',
       'test/spec/**/*.js'
     ],

@@ -29,15 +29,17 @@ angular.module('angular-here-maps')
 
         var platform = new H.service.Platform({
           'app_id': MapConfig.appId(),
-          'app_code': MapConfig.appCode(),
-          'ppi': 640
+          'app_code': MapConfig.appCode()
         });
 
-        defaultLayers = platform.createDefaultLayers();
+        defaultLayers = platform.createDefaultLayers(512, MapConfig.pixelPerInch());
 
         this.map = new H.Map(
           $element[0],
-          defaultLayers.normal.map
+          defaultLayers.normal.map,
+          {
+            pixelRatio: MapConfig.pixelRatio()
+          }
         );
 
         if ($scope.zoom) {
