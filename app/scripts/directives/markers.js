@@ -13,7 +13,8 @@ angular.module('angular-here-maps')
       require: '^map',
       scope: {
         locations: '=',
-        icon: '='
+        icon: '=',
+        window: '='
       },
       link: function(scope, element, attrs, mapController) {
         _.each(scope.locations, function(location) {

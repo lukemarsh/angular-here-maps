@@ -13,6 +13,7 @@ angular
   })
   .controller('MapController', function($scope) {
     $scope.iconContent = 'ABC';
+    $scope.windowContent = 'DEF';
   	$scope.map = {
       zoom : 14,
       center : { 
@@ -22,12 +23,18 @@ angular
     };
     $scope.marker = {
       coordinates : {
-        lng: -0.135559,
+        lng: -0.14,
         lat: 51.513872
       },
       icon : {
         type: 'html',
-        template: '<div>a</div>'
+        template: '<div>a</div>',
+        window: {
+          template: '<div>this is the window template</div>',
+          data: {
+            content: $scope.windowContent
+          }
+        }
       }
     };
 
@@ -45,6 +52,12 @@ angular
         template: '<div ng-bind="content"></div>',
         data: {
           content: $scope.iconContent
+        },
+        window: {
+          template: '<div>this is the window template</div>',
+          data: {
+            content: $scope.windowContent
+          }
         }
       }
     };

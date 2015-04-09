@@ -22,7 +22,8 @@ angular.module('angular-here-maps')
           modules,
           ui,
           behavior,
-          marker;
+          marker,
+          markerWindow;
 
         if (MapConfig.libraries()) {
           modules = MapConfig.libraries().split(',');
@@ -51,6 +52,8 @@ angular.module('angular-here-maps')
           }
         );
 
+        this.ui = H.ui.UI.createDefault(this.map, defaultLayers);
+
         if ($scope.zoom) {
           this.map.setZoom($scope.zoom);
         }
@@ -76,6 +79,8 @@ angular.module('angular-here-maps')
         }.bind(this));
 
         this.addMarkerToMap = function(coordinates, icon) {
+          var group = new H.map.Group();
+
           if (icon && icon.type === 'html') {
             if (icon.data) {
               angular.extend($scope, icon.data);
@@ -88,7 +93,21 @@ angular.module('angular-here-maps')
           } else {
             marker = new H.map.Marker(coordinates);
           }
-          this.map.addObject(marker);
+          if (icon && icon.window) {
+            var windowTemplate = '<marker-window><div>' + icon.window.template + '</div></marker-window>';
+            
+            group.addEventListener('tap', function() {
+              if (markerWindow) {
+                this.ui.removeBubble(markerWindow);
+              }
+              markerWindow = new H.ui.InfoBubble(coordinates, {
+                content: windowTemplate 
+              });
+              this.ui.addBubble(markerWindow);
+            }.bind(this, coordinates), false);
+          }
+          this.map.addObject(group);
+          group.addObject(marker);
         };
 
         this.map.addEventListener('mapviewchangeend', function() {
