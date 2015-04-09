@@ -1,6 +1,6 @@
 {
   "name": "angularheremaps",
-  "version": "0.0.0",
+  "version": "1.0.4",
   "dependencies": {
     "abbrev": "^1.0.5",
     "graceful-fs": "^3.0.6",
