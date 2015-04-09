@@ -4,7 +4,7 @@
 
 For pull requests please see branching strategy below! 
 
-Master (1.0.3): [![Build Status](https://travis-ci.org/lukemarsh/angular-here-maps.svg?branch=master)](https://travis-ci.org/lukemarsh/angular-here-maps)
+Master (1.0.4): [![Build Status](https://travis-ci.org/lukemarsh/angular-here-maps.svg?branch=master)](https://travis-ci.org/lukemarsh/angular-here-maps)
 
 task board: [![Stories in Ready](https://badge.waffle.io/lukeamarsh/angular-here-maps.png?label=ready&title=Ready)](https://waffle.io/lukemarsh/angular-here-maps)
 
@@ -122,4 +122,4 @@ branch and issuing a PR with the updated documentation page, or by opening an is
 
 ### Branching Scheme
 
-- master: points to the active targeted next release branch (1.0.3)
+- master: points to the active targeted next release branch (1.0.4)
