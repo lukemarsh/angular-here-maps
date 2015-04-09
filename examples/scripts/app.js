@@ -17,4 +17,16 @@ angular
         lat: 51.513872
       }
     };
+    $scope.marker = {
+      coordinates : {
+        lng: -0.135559,
+        lat: 51.513872
+      },
+      icon : {
+        type: 'dom',
+        element: 'div',
+        className: 'dot'
+      },
+      radius: 1000
+    };
   });
