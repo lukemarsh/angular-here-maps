@@ -9,7 +9,7 @@
 angular.module('angular-here-maps')
   .directive('map', ['MapConfig', function (MapConfig) {
     return {
-      template: '<div class="here-map"><ng-transclude></ng-transclude></div>',
+      template: '<div class="here-map"><div ng-transclude></div></div>',
       replace: true,
       scope: {
         zoom: '=',
@@ -35,34 +35,34 @@ angular.module('angular-here-maps')
 
         defaultLayers = platform.createDefaultLayers();
 
-        var map = new H.Map(
+        this.map = new H.Map(
           $element[0],
           defaultLayers.normal.map
         );
 
         if ($scope.zoom) {
-          map.setZoom($scope.zoom);
+          this.map.setZoom($scope.zoom);
         }
 
         if ($scope.center) {
-          map.setCenter($scope.center);
+          this.map.setCenter($scope.center);
         }
 
         window.addEventListener('resize', function () {
-          map.getViewPort().resize();
+          this.map.getViewPort().resize();
         });
 
         _.each(modules, function(module) {
           if (module === 'ui') {
-            ui = H.ui.UI.createDefault(map, defaultLayers);
+            ui = H.ui.UI.createDefault(this.map, defaultLayers);
           }
           if (module === 'pano') {
             platform.configure(H.map.render.panorama.RenderEngine);
           }
           if (module === 'mapevents') {
-            behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+            behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
           }
-        });
+        }.bind(this));
       }
     };
   }]);

@@ -23,10 +23,8 @@ angular
         lat: 51.513872
       },
       icon : {
-        type: 'dom',
-        element: 'div',
-        className: 'dot'
-      },
-      radius: 1000
+        type: 'html',
+        template: '<div>a</div>'
+      }
     };
   });

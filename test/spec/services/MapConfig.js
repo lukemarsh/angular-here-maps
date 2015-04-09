@@ -2,52 +2,44 @@
 
 describe('Service: MapConfig', function () {
 
-  // load the service's module
   beforeEach(module('angular-here-maps'));
 
-  // instantiate service
-  var mapConfigProvider;
+  var MapConfigProvider;
 
-  beforeEach(function () {
-    // Initialize the service provider by injecting it to a fake module's config block
-    angular.module('testApp', function () {})
-      .config(function (MapConfigProvider) {
-        mapConfigProvider = MapConfigProvider;
+  beforeEach(function() {
+    angular.module('mockModule', [])
+      .config(function(_MapConfigProvider_) {
+        MapConfigProvider = _MapConfigProvider_;
 
-        mapConfigProvider.appId = function() {
-          return '1';
-        };
-
-        mapConfigProvider.appCode = function() {
-          return '2';
-        };
-
-        mapConfigProvider.libraries = function() {
-          return 'lib1,lib2';
-        };
+        MapConfigProvider.setOptions({
+          appId: 'Q4azLpJlFAp5pkcEbagu',
+          appCode: 'WT6i13vXvx1JbFky92wqjg',
+          libraries: 'ui,mapevents,pano'
+        });
       });
-    module('angular-here-maps', 'testApp');
 
-    inject(function () {});
+    module('angular-here-maps', 'mockModule');
+
+    inject(function() {});
   });
 
   it('MapConfig should not be undefined', function () {
-    expect(mapConfigProvider).not.toBeUndefined();
+    expect(MapConfigProvider).not.toBeUndefined();
   });
 
   it('appId() should return the appId provided', function () {
-    expect(mapConfigProvider.appId()).not.toBeUndefined();
-    expect(mapConfigProvider.appId()).toEqual('1');
+    expect(MapConfigProvider.mapOptions.appId).not.toBeUndefined();
+    expect(MapConfigProvider.mapOptions.appId).toEqual('Q4azLpJlFAp5pkcEbagu');
   });
 
   it('appCode() should return the appCode provided', function () {
-    expect(mapConfigProvider.appCode()).not.toBeUndefined();
-    expect(mapConfigProvider.appCode()).toEqual('2');
+    expect(MapConfigProvider.mapOptions.appCode).not.toBeUndefined();
+    expect(MapConfigProvider.mapOptions.appCode).toEqual('WT6i13vXvx1JbFky92wqjg');
   });
 
   it('libraries() should return the libraries provided', function () {
-    expect(mapConfigProvider.libraries()).not.toBeUndefined();
-    expect(mapConfigProvider.libraries()).toEqual('lib1,lib2');
+    expect(MapConfigProvider.mapOptions.libraries).not.toBeUndefined();
+    expect(MapConfigProvider.mapOptions.libraries).toEqual('ui,mapevents,pano');
   });
 
 });

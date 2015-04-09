@@ -9,8 +9,8 @@ describe('Directive: map', function () {
     scope,
     compile;
 
-  beforeEach(inject(function (_$rootScope_, _$compile_) {
-    scope = _$rootScope_;
+  beforeEach(inject(function ($rootScope, _$compile_) {
+    scope = $rootScope.$new();
     compile = _$compile_;
   }));
 
@@ -33,6 +33,10 @@ describe('Directive: map', function () {
     compileDirective(element);
   });
 
+  it('element shouldn\'t be undefined', function() {
+    expect(element).not.toBeUndefined();
+  });
+
   it('should have a class of hear-map when it compiles', function(){
     expect((element[0]).className).toContain('here-map');
   });
@@ -47,36 +51,25 @@ describe('Directive: map', function () {
 
     it('should have access to zoom', function() {
       expect(element.isolateScope().zoom).toBeDefined();
+      expect(element.isolateScope().zoom).toEqual(14);
     });
   });
 
   describe('Rendering the map without center values', function() {
 
     beforeEach(function() {
-      element = '<map zoom="14"></map>';
+      element = '<map zoom="map.zoom"></map>';
       compileDirective(element);
     });
 
     it('should not have access to center', function() {
       expect(element.isolateScope().center).toBeUndefined();
     });
-
-    it('should have access to zoom', function() {
-      expect(element.isolateScope().zoom).toBeDefined();
-      expect(element.isolateScope().zoom).toEqual(14);
-    });
   });
 
   describe('Rendering the map without zoom values', function() {
 
     beforeEach(function() {
-      scope.map = {
-        center: {
-          lng: -0.13,
-          lat: 51
-        },
-        zoom: 14
-      };
       element = '<map center="map.center"></map>';
       compileDirective(element);
     });
@@ -85,26 +78,5 @@ describe('Directive: map', function () {
       expect(element.isolateScope().zoom).toBeUndefined();
     });
 
-    it('should have access to center', function() {
-      expect(element.isolateScope().center).toBeDefined();
-      expect(element.isolateScope().center.lng).toEqual(-0.13);
-      expect(element.isolateScope().center.lat).toEqual(51);
-    });
-  });
-
-  describe('Rendering the map without center and zoom values', function() {
-
-    beforeEach(function() {
-      element = '<map></map>';
-      compileDirective(element);
-    });
-
-    it('should not have access to center', function() {
-      expect(element.isolateScope().center).toBeUndefined();
-    });
-
-    it('should not have access to zoom', function() {
-      expect(element.isolateScope().zoom).toBeUndefined();
-    });
   });
 });

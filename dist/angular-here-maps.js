@@ -21,7 +21,7 @@ angular
 angular.module('angular-here-maps')
   .directive('map', ['MapConfig', function (MapConfig) {
     return {
-      template: '<div class="here-map"><ng-transclude></ng-transclude></div>',
+      template: '<div class="here-map"><div ng-transclude></div></div>',
       replace: true,
       scope: {
         zoom: '=',
@@ -47,34 +47,34 @@ angular.module('angular-here-maps')
 
         defaultLayers = platform.createDefaultLayers();
 
-        var map = new H.Map(
+        this.map = new H.Map(
           $element[0],
           defaultLayers.normal.map
         );
 
         if ($scope.zoom) {
-          map.setZoom($scope.zoom);
+          this.map.setZoom($scope.zoom);
         }
 
         if ($scope.center) {
-          map.setCenter($scope.center);
+          this.map.setCenter($scope.center);
         }
 
         window.addEventListener('resize', function () {
-          map.getViewPort().resize();
+          this.map.getViewPort().resize();
         });
 
         _.each(modules, function(module) {
           if (module === 'ui') {
-            ui = H.ui.UI.createDefault(map, defaultLayers);
+            ui = H.ui.UI.createDefault(this.map, defaultLayers);
           }
           if (module === 'pano') {
             platform.configure(H.map.render.panorama.RenderEngine);
           }
           if (module === 'mapevents') {
-            behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+            behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
           }
-        });
+        }.bind(this));
       }
     };
   }]);
@@ -92,47 +92,53 @@ angular.module('angular-here-maps')
       require: '^map',
       scope: {
       	coordinates: '=',
-      	icon: '=',
-      	radius: '='
+        icon: '='
       },
-      template: '<div>dsfdsf</div>',
+      restrict: 'E',
       link: function(scope, element, attrs, mapController) {
-      	var addDotToMap = function() {
-          if (scope.icon && scope.icon.type === 'dom') {
-            var dot = document.createElement(scope.icon.element);
-            dot.className = scope.icon.className;
-            var icon = new H.map.DomIcon(dot);
-            var marker = new H.map.DomMarker(scope.coordinates, {icon: icon});
+        var marker;
+      	// var addDotToMap = function() {
+       //    if (scope.icon && scope.icon.type === 'html') {
+       //      var dot = document.createElement(scope.icon.element);
+       //      //dot.className = scope.icon.className;
+       //      var icon = new H.map.DomIcon(dot);
+       //      var marker = new H.map.DomMarker(scope.coordinates, {icon: icon});
+       //      mapController.map.addObject(marker);
+       //    }
+       //  };
+
+        // var addCircleToMap = function(){
+        //   return mapController.map.addObject(new H.map.Circle(
+        //     {lat:scope.coordinates.lat, lng:scope.coordinates.lng},
+        //     // The radius of the circle in meters
+        //     scope.radius,
+        //     {
+        //       style: {
+        //         strokeColor: 'rgb(0, 37, 102)', // Color of the perimeter
+        //         lineWidth: 2,
+        //         fillColor: 'rgba(0, 37, 102, 0.05)'  // Color of the circle
+        //       }
+        //     }
+        //   ));
+        // };
+
+      	var addMarker = function() {
+          if (scope.coordinates) {
+            if (scope.icon.type === 'html') {
+              var icon = new H.map.DomIcon(scope.icon.template);
+              var coordinates = scope.coordinates;
+              marker = new H.map.DomMarker(coordinates, {
+                  icon: icon
+              });
+            } else {
+              marker = new H.map.Marker(scope.coordinates);
+            }
             mapController.map.addObject(marker);
           }
         };
 
-        var addCircleToMap = function(){
-          return mapController.map.addObject(new H.map.Circle(
-            {lat:scope.coordinates.lat, lng:scope.coordinates.lng},
-            // The radius of the circle in meters
-            scope.radius,
-            {
-              style: {
-                strokeColor: 'rgb(0, 37, 102)', // Color of the perimeter
-                lineWidth: 2,
-                fillColor: 'rgba(0, 37, 102, 0.05)'  // Color of the circle
-              }
-            }
-          ));
-        };
-
-      	var addCurrentMarker = function() {
-          if (scope.coordinates) {
-            if (scope.radius) {
-              addCircleToMap();
-            }
-            addDotToMap();
-          }
-        };
-
       	scope.$watch('coordinates', function() {
-          addCurrentMarker();
+          addMarker();
         });
       }
     };

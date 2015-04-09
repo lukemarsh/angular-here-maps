@@ -2,15 +2,15 @@
 
 describe('Directive: marker', function () {
 
-  // load the directive's module
   beforeEach(module('angular-here-maps'));
 
   var element,
     scope,
-    compile;
+    compile,
+    markerElement;
 
-  beforeEach(inject(function (_$rootScope_, _$compile_) {
-    scope = _$rootScope_;
+  beforeEach(inject(function ($rootScope, _$compile_) {
+    scope = $rootScope.$new();
     compile = _$compile_;
   }));
 
@@ -23,36 +23,51 @@ describe('Directive: marker', function () {
   beforeEach(function() {
     scope.marker = {
       coordinates : {
-        lat: 51.513872,
-        lng: -0.135559
+        lat: 51,
+        lng: -0.13
+      },
+      icon: {
+        type: 'html',
+        template: '<div>a</div>'
       }
     };
 
-    element = '<marker coordinates="marker.coordinates"></marker>';
+    element = '<map><marker coordinates="marker.coordinates" icon="marker.icon"></marker></map>';
     compileDirective(element);
+
+    markerElement = element.find('marker');
   });
 
   it('element shouldn\'t be undefined', function() {
     expect(element).not.toBeUndefined();
   });
 
-  describe('Rendering the marker with values', function() {
-
-    it('should have access to values', function() {
-      expect(element.scope().coordinates).toBeDefined();
+  describe('Rendering the marker with coordinate and type values', function() {
+    it('should have access to coordinates', function() {
+      expect(markerElement.isolateScope().coordinates).toBeDefined();
+      expect(markerElement.isolateScope().coordinates.lng).toEqual(-0.13);
+      expect(markerElement.isolateScope().coordinates.lat).toEqual(51);
     });
-
+    it('should have access to icon', function() {
+      expect(markerElement.isolateScope().icon).toBeDefined();
+    });
   });
 
   describe('Rendering the marker without values', function() {
 
     beforeEach(function() {
-      element = '<marker></marker>';
+      element = '<map><marker></marker></map>';
       compileDirective(element);
+
+      markerElement = element.find('marker');
     });
 
     it('should not have access to coordinates', function() {
-      expect(element.scope().coordinates).toBeUndefined();
+      expect(markerElement.isolateScope().coordinates).toBeUndefined();
+    });
+
+    it('should not have access to icon', function() {
+      expect(markerElement.isolateScope().icon).toBeUndefined();
     });
 
   });
