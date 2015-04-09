@@ -12,6 +12,7 @@ angular
 	});
   })
   .controller('MapController', function($scope) {
+    $scope.iconContent = 'ABC';
   	$scope.map = {
       zoom : 14,
       center : { 
@@ -41,7 +42,10 @@ angular
       ],
       icon: {
         type: 'html',
-        template: '<div>b</div>'
+        template: '<div ng-bind="content"></div>',
+        data: {
+          content: $scope.iconContent
+        }
       }
     };
   });

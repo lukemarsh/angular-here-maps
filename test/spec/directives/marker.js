@@ -21,6 +21,7 @@ describe('Directive: marker', function () {
   }
 
   beforeEach(function() {
+    scope.iconContent = 'ABC';
     scope.marker = {
       coordinates : {
         lat: 51,
@@ -28,7 +29,10 @@ describe('Directive: marker', function () {
       },
       icon: {
         type: 'html',
-        template: '<div>a</div>'
+        template: '<div ng-bind="content"></div>',
+        data: {
+          content: scope.iconContent
+        }
       }
     };
 
@@ -71,4 +75,11 @@ describe('Directive: marker', function () {
     });
 
   });
+
+  describe('Accesing data of the icon', function() {
+    it('should contain the iconContent from the scope', function() {
+      expect(markerElement.isolateScope().icon.data).not.toBeUndefined();
+    });
+  });
+
 });
