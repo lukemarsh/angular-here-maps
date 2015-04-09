@@ -6,7 +6,9 @@ angular
   	MapConfigProvider.setOptions({
 	  appId: 'Q4azLpJlFAp5pkcEbagu',
 	  appCode: 'WT6i13vXvx1JbFky92wqjg',
-    libraries: 'ui,mapevents,pano'
+    libraries: 'ui,mapevents,pano',
+    pixelRatio: 2,
+    pixelPerInch: 320
 	});
   })
   .controller('MapController', function($scope) {
@@ -25,6 +27,21 @@ angular
       icon : {
         type: 'html',
         template: '<div>a</div>'
+      }
+    };
+
+    $scope.markers = {
+      locations: [
+        {
+          coordinates: {
+            lng: -0.135559,
+            lat: 51.513872
+          }
+        }
+      ],
+      icon: {
+        type: 'html',
+        template: '<div>b</div>'
       }
     };
   });

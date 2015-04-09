@@ -21,7 +21,8 @@ angular.module('angular-here-maps')
         var defaultLayers,
           modules,
           ui,
-          behavior;
+          behavior,
+          marker;
 
         if (MapConfig.libraries()) {
           modules = MapConfig.libraries().split(',');
@@ -52,7 +53,7 @@ angular.module('angular-here-maps')
 
         window.addEventListener('resize', function () {
           this.map.getViewPort().resize();
-        });
+        }.bind(this));
 
         _.each(modules, function(module) {
           if (module === 'ui') {
@@ -65,6 +66,18 @@ angular.module('angular-here-maps')
             behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
           }
         }.bind(this));
+
+        this.addMarkerToMap = function(coordinates, icon) {
+          if (icon && icon.type === 'html') {
+            var markerIcon = new H.map.DomIcon(icon.template);
+            marker = new H.map.DomMarker(coordinates, {
+              icon: markerIcon
+            });
+          } else {
+            marker = new H.map.Marker(coordinates);
+          }
+          this.map.addObject(marker);
+        };
       }
     };
   }]);
