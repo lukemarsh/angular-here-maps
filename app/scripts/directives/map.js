@@ -7,7 +7,7 @@
  * # map
  */
 angular.module('angular-here-maps')
-  .directive('map', ['MapConfig', function (MapConfig) {
+  .directive('map', function (MapConfig, $document, $compile) {
     return {
       template: '<div class="here-map"><div ng-transclude></div></div>',
       replace: true,
@@ -21,11 +21,20 @@ angular.module('angular-here-maps')
         var defaultLayers,
           modules,
           ui,
-          behavior;
+          behavior,
+          marker;
 
         if (MapConfig.libraries()) {
           modules = MapConfig.libraries().split(',');
         }
+
+        $scope.refreshMarkers = function() {
+          var mapIcons = $document.find('marker-icon');
+          _.each(mapIcons, function(mapIcon) {
+            $compile(mapIcon)($scope);
+          });
+          $scope.$apply();
+        };
 
         var platform = new H.service.Platform({
           'app_id': MapConfig.appId(),
@@ -52,7 +61,7 @@ angular.module('angular-here-maps')
 
         window.addEventListener('resize', function () {
           this.map.getViewPort().resize();
-        });
+        }.bind(this));
 
         _.each(modules, function(module) {
           if (module === 'ui') {
@@ -65,6 +74,26 @@ angular.module('angular-here-maps')
             behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
           }
         }.bind(this));
+
+        this.addMarkerToMap = function(coordinates, icon) {
+          if (icon && icon.type === 'html') {
+            if (icon.data) {
+              angular.extend($scope, icon.data);
+            }
+            var template = '<marker-icon><div>' + icon.template + '</div></marker-icon>';
+            var markerIcon = new H.map.DomIcon(template);
+            marker = new H.map.DomMarker(coordinates, {
+              icon: markerIcon
+            });
+          } else {
+            marker = new H.map.Marker(coordinates);
+          }
+          this.map.addObject(marker);
+        };
+
+        this.map.addEventListener('mapviewchangeend', function() {
+          $scope.refreshMarkers();
+        });
       }
     };
-  }]);
+  });

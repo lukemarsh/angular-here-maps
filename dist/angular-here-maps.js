@@ -19,7 +19,7 @@ angular
  * # map
  */
 angular.module('angular-here-maps')
-  .directive('map', ['MapConfig', function (MapConfig) {
+  .directive('map', function (MapConfig, $document, $compile) {
     return {
       template: '<div class="here-map"><div ng-transclude></div></div>',
       replace: true,
@@ -33,11 +33,20 @@ angular.module('angular-here-maps')
         var defaultLayers,
           modules,
           ui,
-          behavior;
+          behavior,
+          marker;
 
         if (MapConfig.libraries()) {
           modules = MapConfig.libraries().split(',');
         }
+
+        $scope.refreshMarkers = function() {
+          var mapIcons = $document.find('marker-icon');
+          _.each(mapIcons, function(mapIcon) {
+            $compile(mapIcon)($scope);
+          });
+          $scope.$apply();
+        };
 
         var platform = new H.service.Platform({
           'app_id': MapConfig.appId(),
@@ -64,7 +73,7 @@ angular.module('angular-here-maps')
 
         window.addEventListener('resize', function () {
           this.map.getViewPort().resize();
-        });
+        }.bind(this));
 
         _.each(modules, function(module) {
           if (module === 'ui') {
@@ -77,9 +86,29 @@ angular.module('angular-here-maps')
             behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
           }
         }.bind(this));
+
+        this.addMarkerToMap = function(coordinates, icon) {
+          if (icon && icon.type === 'html') {
+            if (icon.data) {
+              angular.extend($scope, icon.data);
+            }
+            var template = '<marker-icon><div>' + icon.template + '</div></marker-icon>';
+            var markerIcon = new H.map.DomIcon(template);
+            marker = new H.map.DomMarker(coordinates, {
+              icon: markerIcon
+            });
+          } else {
+            marker = new H.map.Marker(coordinates);
+          }
+          this.map.addObject(marker);
+        };
+
+        this.map.addEventListener('mapviewchangeend', function() {
+          $scope.refreshMarkers();
+        });
       }
     };
-  }]);
+  });
 ;'use strict';
 
 /**
@@ -98,25 +127,39 @@ angular.module('angular-here-maps')
       },
       restrict: 'E',
       link: function(scope, element, attrs, mapController) {
-        var marker;
 
       	var addMarker = function() {
           if (scope.coordinates) {
-            if (scope.icon.type === 'html') {
-              var icon = new H.map.DomIcon(scope.icon.template);
-              var coordinates = scope.coordinates;
-              marker = new H.map.DomMarker(coordinates, {
-                  icon: icon
-              });
-            } else {
-              marker = new H.map.Marker(scope.coordinates);
-            }
-            mapController.map.addObject(marker);
+            mapController.addMarkerToMap(scope.coordinates, scope.icon);
           }
         };
 
       	scope.$watch('coordinates', function() {
           addMarker();
+        });
+      }
+    };
+  });
+;'use strict';
+
+/**
+ * @ngdoc directive
+ * @name angular-here-maps.directive:markers
+ * @description
+ * # markers
+ */
+angular.module('angular-here-maps')
+  .directive('markers', function () {
+    return {
+      restrict: 'E',
+      require: '^map',
+      scope: {
+        locations: '=',
+        icon: '='
+      },
+      link: function(scope, element, attrs, mapController) {
+        _.each(scope.locations, function(location) {
+          mapController.addMarkerToMap(location.coordinates, scope.icon);
         });
       }
     };
