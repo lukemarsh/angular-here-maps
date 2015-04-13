@@ -47,7 +47,7 @@ module.exports = function (grunt) {
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js', 'examples/scripts/{,*/}*.js'],
+        files: ['<%= yeoman.app %>/scripts/{,*/}*.js', '<%= yeoman.app %>/development/{,*/}*.js', 'examples/scripts/{,*/}*.js'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -93,6 +93,23 @@ module.exports = function (grunt) {
           }
         }
       },
+      development: {
+        options: {
+          port: 9002,
+          open: true,
+          livereload: true,
+          middleware: function (connect) {
+            return [
+              connect.static('app'),
+              connect().use(
+                '/bower_components',
+                connect.static('./bower_components')
+              ),
+              connect.static('app')
+            ];
+          }
+        },
+      },
       test: {
         options: {
           port: 9001,
@@ -126,7 +143,9 @@ module.exports = function (grunt) {
       all: {
         src: [
           'Gruntfile.js',
-          '<%= yeoman.app %>/scripts/{,*/}*.js'
+          '<%= yeoman.app %>/scripts/{,*/}*.js',
+          'development/{,*/}*.js',
+          'examples/{,*/}*.js'
         ]
       },
       test: {
@@ -229,12 +248,21 @@ module.exports = function (grunt) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     }
-
-    grunt.task.run([
-      'clean:server',
-      'connect:livereload',
-      'watch'
-    ]);
+    if (target === 'examples') {
+      grunt.task.run([
+        'clean:server',
+        'wiredep',
+        'connect:livereload',
+        'watch'
+      ]);
+    } else {
+      grunt.task.run([
+        'clean:server',
+        'wiredep',
+        'connect:development',
+        'watch'
+      ]);
+    }
   });
 
   grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
