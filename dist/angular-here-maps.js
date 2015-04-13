@@ -22,19 +22,21 @@ angular.module('angular-here-maps')
   .directive('map', function (MapConfig, $document, $compile) {
     return {
       template: '<div class="here-map"><div ng-transclude></div></div>',
-      replace: true,
-      scope: {
-        zoom: '=',
-        center: '='
-      },
       restrict: 'EA',
       transclude: true,
-      controller: function($scope, $element) {
+      replace: true,
+      controller: function($scope, $element, $attrs) {
         var defaultLayers,
           modules,
           ui,
           behavior,
-          marker;
+          marker,
+          markerWindow;
+
+        console.log($scope);
+
+        $scope.zoom = $scope.helpers.useDotNotation($scope, $attrs.zoom);
+        $scope.center = $scope.helpers.useDotNotation($scope, $attrs.center);
 
         if (MapConfig.libraries()) {
           modules = MapConfig.libraries().split(',');
@@ -63,6 +65,8 @@ angular.module('angular-here-maps')
           }
         );
 
+        this.ui = H.ui.UI.createDefault(this.map, defaultLayers);
+
         if ($scope.zoom) {
           this.map.setZoom($scope.zoom);
         }
@@ -87,20 +91,71 @@ angular.module('angular-here-maps')
           }
         }.bind(this));
 
-        this.addMarkerToMap = function(coordinates, icon) {
-          if (icon && icon.type === 'html') {
-            if (icon.data) {
-              angular.extend($scope, icon.data);
-            }
-            var template = '<marker-icon><div>' + icon.template + '</div></marker-icon>';
-            var markerIcon = new H.map.DomIcon(template);
+        var createMapMarker = function(coordinates, icon) {
+          var markerTemplate = '<marker-icon><div>' + icon.template + '</div></marker-icon>';
+          var markerIcon = new H.map.DomIcon(markerTemplate);
+
+          if (icon.type === 'html') {
             marker = new H.map.DomMarker(coordinates, {
               icon: markerIcon
             });
           } else {
             marker = new H.map.Marker(coordinates);
           }
-          this.map.addObject(marker);
+        };
+
+        var createMarkerEvents = function(windowTemplate, group, coordinates) {
+          group.addEventListener('tap', function() {
+            if (markerWindow) {
+              this.ui.removeBubble(markerWindow);
+            }
+            var newTemplate = windowTemplate;
+            newTemplate = $compile(newTemplate)($scope);
+            $scope.$apply();
+
+            markerWindow = new H.ui.InfoBubble(coordinates, {
+              content: newTemplate[0]
+            });
+            this.ui.addBubble(markerWindow);
+          }.bind(this, coordinates), false);
+        }.bind(this);
+
+        var createMarkerWindows = function(group, coordinates, icon) {
+          if (icon.window) {
+            var windowTemplate = '<marker-window><div>' + icon.window.template + '</div></marker-window>';
+            createMarkerEvents(windowTemplate, group, coordinates);
+          }
+        };
+
+        var getCurrentIcon = function(defaultIcon, currentIcon) {
+          var icon = defaultIcon;
+
+          if (currentIcon) {
+            if (!currentIcon.type) {
+              icon.type = null;
+              if (currentIcon.window) {
+                icon.window = currentIcon.window;
+              }
+            }
+            if (currentIcon.type === 'html') {
+              icon = currentIcon;
+            }
+          }
+          return icon;
+        };
+
+        this.addMarkerToMap = function(coordinates, defaultIcon, currentIcon) {
+          var group = new H.map.Group();
+
+          var icon = getCurrentIcon(defaultIcon, currentIcon);
+
+          if (icon) {
+            createMapMarker(coordinates, icon);
+            createMarkerWindows(group, coordinates, icon);
+          }
+
+          this.map.addObject(group);
+          group.addObject(marker);
         };
 
         this.map.addEventListener('mapviewchangeend', function() {
@@ -159,8 +214,29 @@ angular.module('angular-here-maps')
       },
       link: function(scope, element, attrs, mapController) {
         _.each(scope.locations, function(location) {
-          mapController.addMarkerToMap(location.coordinates, scope.icon);
+          mapController.addMarkerToMap(location.coordinates, scope.icon, location.icon);
         });
+      }
+    };
+  });
+;'use strict';
+
+/**
+ * @ngdoc helpers
+ * @name angular-here-maps.run
+ * @description
+ * Helper functions for angular-here-maps.
+ */
+angular.module('angular-here-maps')
+  .run(function($rootScope) {
+    $rootScope.helpers = {
+      useDotNotation: function(object, path) {
+        path = String(path).split('.');
+
+        for (var i = 0; i < path.length; i++) {
+          object = object[path[i]];
+        }
+        return object;
       }
     };
   });
