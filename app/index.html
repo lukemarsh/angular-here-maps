@@ -1,0 +1,56 @@
+<!doctype html>
+<html class="no-js" ng-app="angular-here-maps-development">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width" />
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="stylesheet" type="text/css" href="bower_components/here-maps-api/modules/ui/mapsjs-ui.css">
+    <style type="text/css">
+    .here-map, body, html {
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    </style>
+  </head>
+  <body ng-controller="MapController">
+
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <map zoom="map.zoom" center="map.center">
+      <marker coordinates="marker.coordinates" icon="marker.icon"></marker>
+      <markers locations="markers.locations" icon="markers.icon"></markers>
+    </map>
+
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/bind-polyfill/index.js"></script>
+    <script src="bower_components/here-maps-api/mapsjs-core.js"></script>
+    <!-- endbower -->
+    <script src="bower_components/here-maps-api/modules/service/mapsjs-service.js"></script>
+    <script src="bower_components/here-maps-api/modules/mapevents/mapsjs-mapevents.js"></script>
+    <script src="bower_components/here-maps-api/modules/ui/mapsjs-ui.js"></script>
+    <script src="bower_components/here-maps-api/modules/pano/mapsjs-pano.js"></script>
+
+    <script src="scripts/app.js"></script>
+    <script src="scripts/helpers.js"></script>
+    <script src="scripts/services/MapConfig.js"></script>
+    <!-- directives -->
+    <script src="scripts/directives/map.js"></script>
+    <script src="scripts/directives/marker.js"></script>
+    <script src="scripts/directives/markers.js"></script>
+
+    <!-- development -->
+    <script src="development/app.js"></script>
+    <script src="development/controllers/MapController.js"></script>
+
+</body>
+</html>

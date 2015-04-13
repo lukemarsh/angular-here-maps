@@ -5,7 +5,8 @@
   "dependencies": {
     "angular": "~1.2.0",
     "lodash": "~3.6.0",
-    "bind-polyfill": "~1.0.0"
+    "bind-polyfill": "~1.0.0",
+    "here-maps-api": "~3.0.0"
   },
   "ignore": [
     ".bowerrc",

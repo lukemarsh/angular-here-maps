@@ -33,8 +33,6 @@ angular.module('angular-here-maps')
           marker,
           markerWindow;
 
-        console.log($scope);
-
         $scope.zoom = $scope.helpers.useDotNotation($scope, $attrs.zoom);
         $scope.center = $scope.helpers.useDotNotation($scope, $attrs.center);
 
