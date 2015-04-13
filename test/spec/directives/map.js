@@ -44,14 +44,14 @@ describe('Directive: map', function () {
   describe('Rendering the map with center and zoom values', function() {
 
     it('should have access to center', function() {
-      expect(element.isolateScope().center).toBeDefined();
-      expect(element.isolateScope().center.lng).toEqual(-0.13);
-      expect(element.isolateScope().center.lat).toEqual(51);
+      expect(element.scope().center).toBeDefined();
+      expect(element.scope().center.lng).toEqual(-0.13);
+      expect(element.scope().center.lat).toEqual(51);
     });
 
     it('should have access to zoom', function() {
-      expect(element.isolateScope().zoom).toBeDefined();
-      expect(element.isolateScope().zoom).toEqual(14);
+      expect(element.scope().zoom).toBeDefined();
+      expect(element.scope().zoom).toEqual(14);
     });
   });
 
@@ -63,7 +63,7 @@ describe('Directive: map', function () {
     });
 
     it('should not have access to center', function() {
-      expect(element.isolateScope().center).toBeUndefined();
+      expect(element.scope().center).toBeUndefined();
     });
   });
 
@@ -75,7 +75,7 @@ describe('Directive: map', function () {
     });
 
     it('should not have access to zoom', function() {
-      expect(element.isolateScope().zoom).toBeUndefined();
+      expect(element.scope().zoom).toBeUndefined();
     });
 
   });
