@@ -4,7 +4,7 @@
 
 For pull requests please see branching strategy below! 
 
-Master (1.0.61.): [![Build Status](https://travis-ci.org/lukemarsh/angular-here-maps.svg?branch=master)](https://travis-ci.org/lukemarsh/angular-here-maps)
+Master (1.0.6): [![Build Status](https://travis-ci.org/lukemarsh/angular-here-maps.svg?branch=master)](https://travis-ci.org/lukemarsh/angular-here-maps)
 
 task board: [![Stories in Ready](https://badge.waffle.io/lukeamarsh/angular-here-maps.png?label=ready&title=Ready)](https://waffle.io/lukemarsh/angular-here-maps)
 
