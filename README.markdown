@@ -99,23 +99,32 @@ To build the library after you made changes, simply run grunt:
 grunt
 ```
 
-### Running the example
-To run the example page, just run
+### Running in Development mode
+To run the directives in development mode, just run
 
 ```shell
 grunt serve
 ```
 
+and your browser will automatically open on `http://localhost:9002`.
+
+### Running the example
+To run the example page, just run
+
+```shell
+grunt serve:examples
+```
+
 and your browser will automatically open on `http://localhost:9000`.
 
 ### Documentation
-The various directives are documented at [official site](http://angular-google-maps.org).
+The various directives are documented at [official site](http://lukemarsh.github.io/angular-here-maps/).
 
 ### Contributing
 
 Filing issues: 
  Prior to submiting an issue:
-- Search open/**closed** issues, src examples (./examples), gitter, and then google plus community! **Again please search!**
+- Search open/**closed** issues, src examples (./examples), and gitter! **Again please search!**
 - issues w/ plnkrs get attention quicker
 
 Pull requests more than welcome! If you're adding new features, it would be appreciated if you would provide some docs about the feature. 
