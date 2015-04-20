@@ -28,7 +28,6 @@ describe('Directive: marker', function () {
         lng: -0.13
       },
       icon: {
-        type: 'html',
         template: '<div ng-bind="content"></div>',
         data: {
           content: scope.iconContent

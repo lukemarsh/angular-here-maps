@@ -54,7 +54,6 @@ describe('Directive: markers', function () {
           }
         ],
         icon: {
-          type: 'html',
           template: '<div>a</div>'
         }
       };
