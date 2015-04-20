@@ -18,7 +18,6 @@ angular.module('angular-here-maps-development')
         lat: 51.513872
       },
       icon : {
-        type: 'html',
         template: '<div>a</div>',
         window: {
           template: '<div>this is the window template</div>'
@@ -44,12 +43,12 @@ angular.module('angular-here-maps-development')
             lat: 51.513872
           },
           icon: {
-            type: 'html',
-            template: '<div>does this work?</div>',
+            template: 'hello',
             window: {
-              template: '<div>{{ number }} <div ng-click="incrementByOne()">add one</div></div>'
+              templateUrl: 'development/templates/window.html'
             }
-          }
+          },
+          id: 1
         },
         {
           coordinates: {
@@ -57,17 +56,18 @@ angular.module('angular-here-maps-development')
             lat: 51.513872
           },
           icon: {
+            template: 'hello again',
             window: {
-              template: '<div>{{ number }} <div ng-click="decrementByOne()">remove one</div></div>'
+              template: 'testing'
             }
-          }
+          },
+          id: 2
         }
       ],
       icon: {
-        type: 'html',
-        template: '<div ng-bind="content"></div>',
+        templateUrl: 'development/templates/icon.html',
         window: {
-          template: '<div>this is the window template</div>'
+          templateUrl: 'development/templates/window.html'
         }
       }
     };
