@@ -1,4 +1,4 @@
-# angular-here-maps
+# Angular Here Maps
 
 > AngularJS directives for Nokia Here Maps
 
