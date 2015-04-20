@@ -150,16 +150,14 @@ angular.module('angular-here-maps')
           var icon = defaultIcon;
 
           if (currentIcon) {
-            if (!currentIcon.type) {
-              icon.type = null;
-              if (currentIcon.window) {
-                icon.window = currentIcon.window;
-              }
-            }
-            if (currentIcon.type === 'html') {
+            if (currentIcon.template || currentIcon.templateUrl) {
               icon = currentIcon;
             }
+            if (currentIcon.window) {
+              icon.window = currentIcon.window;
+            }
           }
+
           return icon;
         };
 
