@@ -18,7 +18,6 @@ angular.module('angular-here-maps-development')
         lat: 51.513872
       },
       icon : {
-        type: 'html',
         template: '<div>a</div>',
         window: {
           template: '<div>this is the window template</div>'
@@ -44,8 +43,7 @@ angular.module('angular-here-maps-development')
             lat: 51.513872
           },
           icon: {
-            type: 'html',
-            templateUrl: 'development/templates/icon.html',
+            template: 'hello',
             window: {
               templateUrl: 'development/templates/window.html'
             }
@@ -58,17 +56,15 @@ angular.module('angular-here-maps-development')
             lat: 51.513872
           },
           icon: {
-            type: 'html',
-            templateUrl: 'development/templates/icon.html',
+            template: 'hello again',
             window: {
-              templateUrl: 'development/templates/window.html'
+              template: 'testing'
             }
           },
           id: 2
         }
       ],
       icon: {
-        type: 'html',
         templateUrl: 'development/templates/icon.html',
         window: {
           templateUrl: 'development/templates/window.html'
