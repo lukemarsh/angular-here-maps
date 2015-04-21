@@ -85,7 +85,7 @@ angular.module('angular-here-maps')
         var createMapMarker = function(coordinates, icon, id) {
           var markerTemplate;
 
-          if (icon) {
+          if (icon.template || icon.templateUrl) {
             if (icon.templateUrl) {
               markerTemplate = '<template-marker ng-cloak id=' + id + ' templateurl=' + icon.templateUrl + '></template-marker>';
             } else {
@@ -147,15 +147,27 @@ angular.module('angular-here-maps')
         };
 
         var getCurrentIcon = function(defaultIcon, currentIcon) {
-          var icon = defaultIcon;
 
-          if (currentIcon) {
-            if (currentIcon.template || currentIcon.templateUrl) {
-              icon = currentIcon;
-            }
-            if (currentIcon.window) {
-              icon.window = currentIcon.window;
-            }
+          var icon = angular.copy(defaultIcon);
+
+          if (currentIcon && currentIcon.template) {
+            delete icon.templateUrl;
+            icon.template = currentIcon.template;
+          }
+
+          if (currentIcon && currentIcon.templateUrl) {
+            delete icon.template;
+            icon.templateUrl = currentIcon.templateUrl;
+          }
+
+          if (currentIcon && currentIcon.window && currentIcon.window.template) {
+            delete icon.window.templateUrl;
+            icon.window.template = currentIcon.window.template;
+          }
+
+          if (currentIcon && currentIcon.window && currentIcon.window.templateUrl) {
+            delete icon.window.template;
+            icon.window.templateUrl = currentIcon.window.templateUrl;
           }
 
           return icon;

@@ -79,4 +79,12 @@ describe('Directive: map', function () {
     });
 
   });
+
+  describe('mapController', function() {
+
+    describe('addMarkerToMap', function() {
+      console.log(element);
+    });
+
+  });
 });
