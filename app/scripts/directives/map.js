@@ -146,7 +146,7 @@ angular.module('angular-here-maps')
           }
         };
 
-        var getCurrentIcon = function(defaultIcon, currentIcon) {
+        this.getCurrentIcon = function(defaultIcon, currentIcon) {
 
           var icon = angular.copy(defaultIcon);
 
@@ -176,7 +176,7 @@ angular.module('angular-here-maps')
         this.addMarkerToMap = function(coordinates, defaultIcon, currentIcon, id) {
           var group = new H.map.Group();
 
-          var icon = getCurrentIcon(defaultIcon, currentIcon);
+          var icon = this.getCurrentIcon(defaultIcon, currentIcon);
 
           createMapMarker(coordinates, icon, id);
           createMarkerWindows(group, coordinates, icon);
