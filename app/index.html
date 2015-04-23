@@ -8,6 +8,9 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" type="text/css" href="bower_components/here-maps-api/modules/ui/mapsjs-ui.css">
     <style type="text/css">
+    * {
+      box-sizing : border-box;
+    }
     .here-map, body, html {
       width: 100%;
       height: 100%;
@@ -15,6 +18,14 @@
     body {
       margin: 0;
       padding: 0;
+    }
+    .dot {
+      width : 10px;
+      height : 10px;
+      background : black;
+      border-radius: 100px;
+      margin-left: -5px;
+      margin-top : -5px;
     }
     </style>
   </head>
@@ -27,6 +38,7 @@
     <map zoom="map.zoom" center="map.center">
       <marker coordinates="marker.coordinates" icon="marker.icon"></marker>
       <markers locations="markers.locations" icon="markers.icon"></markers>
+      <circle coordinates="marker.coordinates" radius="circle.radius" options="circle.options"></circle>
     </map>
 
     <!-- bower:js -->
@@ -50,6 +62,7 @@
     <script src="scripts/directives/marker-icon.js"></script>
     <script src="scripts/directives/template-marker.js"></script>
     <script src="scripts/directives/template-window.js"></script>
+    <script src="scripts/directives/circle.js"></script>
 
     <!-- development -->
     <script src="development/app.js"></script>

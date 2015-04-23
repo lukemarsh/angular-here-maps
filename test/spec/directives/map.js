@@ -124,7 +124,7 @@ describe('Directive: map', function () {
         expect(icon.template).toEqual('default icon template');
       });
 
-      it('icon templateUrl equal "default icon template url"', function() {
+      it('icon templateUrl should equal "default icon template url"', function() {
         defaultIcon = {
           templateUrl: 'default icon template url'
         };
@@ -149,13 +149,23 @@ describe('Directive: map', function () {
       it('icon window templateUrl should equal "default icon window template url"', function() {
         defaultIcon = {
           window: {
-            template: 'default icon window template url'
+            templateUrl: 'default icon window template url'
           }
         };
         currentIcon = {};
 
         icon = mapController.getCurrentIcon(defaultIcon, currentIcon);
-        expect(icon.window.template).toEqual('default icon window template url');
+        expect(icon.window.templateUrl).toEqual('default icon window template url');
+      });
+
+      it('icon events should equal "these events"', function() {
+        defaultIcon = {
+          events: 'these events'
+        };
+        currentIcon = {};
+
+        icon = mapController.getCurrentIcon(defaultIcon, currentIcon);
+        expect(icon.events).toEqual('these events');
       });
 
       it('icon template should equal "current icon template"', function() {
@@ -168,6 +178,18 @@ describe('Directive: map', function () {
 
         icon = mapController.getCurrentIcon(defaultIcon, currentIcon);
         expect(icon.template).toEqual('current icon template');
+      });
+
+      it('icon events should equal "new events"', function() {
+        defaultIcon = {
+          events: 'these events'
+        };
+        currentIcon = {
+          events: 'new events'
+        };
+
+        icon = mapController.getCurrentIcon(defaultIcon, currentIcon);
+        expect(icon.events).toEqual('new events');
       });
 
       it('icon window template should equal "current icon window template"', function() {

@@ -174,6 +174,10 @@ angular.module('angular-here-maps')
             icon.templateUrl = currentIcon.templateUrl;
           }
 
+          if (currentIcon && currentIcon.events) {
+            icon.events = currentIcon.events;
+          }
+
           if (currentIcon && currentIcon.window && currentIcon.window.template) {
             delete icon.window.templateUrl;
             icon.window.template = currentIcon.window.template;
