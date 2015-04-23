@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angular-here-maps-development')
-  .controller('MapController', function($scope) {
+  .controller('MapController', function($scope, $window) {
     $scope.iconContent = 'ABC';
     $scope.newIconContent = 'GHI';
     $scope.windowContent = 'DEF';
@@ -18,13 +18,13 @@ angular.module('angular-here-maps-development')
         lat: 51.513872
       },
       icon: {
-        template: '<div>marker</div>',
+        templateUrl: 'development/templates/icon test.html',
         window: {
           template: 'hello'
         },
         events: {
           tap: function() {
-            alert('test');
+            $window.alert('test');
           }
         }
       }
