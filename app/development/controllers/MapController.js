@@ -21,6 +21,11 @@ angular.module('angular-here-maps-development')
         template: '<div>marker</div>',
         window: {
           template: 'hello'
+        },
+        events: {
+          tap: function() {
+            alert('test');
+          }
         }
       }
     };

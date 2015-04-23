@@ -1,16 +1,6 @@
 <html>
 <head>
 	<title></title>
-	<link rel="stylesheet" href="http://js.api.here.com/v3/3.0/mapsjs-ui.css" />
-	<script src="bower_components/lodash/lodash.js"></script>
-	<script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
-  <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
-  <script src="http://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
-  <script src="http://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
-  <script src="http://js.api.here.com/v3/3.0/mapsjs-pano.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-	<script src="angular-here-maps.js"></script>
-	<script src="scripts/app.js"></script>
 	<style>
 		body {
 			margin  : 0;
@@ -18,10 +8,20 @@
 		}
 	</style>
 </head>
-<body ng-app="angularApp" ng-controller="MapController">
-	<map center="map.center" zoom="map.zoom">
-		<marker coordinates="marker.coordinates" icon="marker.icon"></marker>
-		<markers locations="markers.locations" icon="markers.icon"></markers>
-	</map>
+<body>
+	<h1>Examples</h1>
+	<ul>
+		<li><a href="simple-map.html">Simple map</a></li>
+		<li><a href="ui.html">UI Layer</a></li>
+		<li><a href="events.html">Events Layer</a></li>
+		<li><a href="ui-and-events.html">UI and Events</a></li>
+		<li><a href="pano.html">Streetview Layer</a></li>
+		<li><a href="pixel-ratio.html">Pixel Ratio settings</a></li>
+		<li><a href="marker.html">Marker</a></li>
+		<li><a href="custom-marker.html">Custom Marker</a></li>
+		<li><a href="marker-events.html">Marker Events</a></li>
+		<li><a href="marker-window.html">Marker Window</a></li>
+		<li><a href="multiple-markers.html">Multiple Markers</a></li>
+	</ul>
 </body>
 </html>

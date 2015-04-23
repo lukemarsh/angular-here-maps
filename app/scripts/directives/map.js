@@ -16,7 +16,6 @@ angular.module('angular-here-maps')
       controller: function($scope, $element, $attrs) {
         var defaultLayers,
           modules,
-          ui,
           behavior,
           marker,
           markerWindow;
@@ -56,8 +55,6 @@ angular.module('angular-here-maps')
           }
         );
 
-        this.ui = H.ui.UI.createDefault(this.map, defaultLayers);
-
         if ($scope.zoom) {
           this.map.setZoom($scope.zoom);
         }
@@ -72,7 +69,7 @@ angular.module('angular-here-maps')
 
         _.each(modules, function(module) {
           if (module === 'ui') {
-            ui = H.ui.UI.createDefault(this.map, defaultLayers);
+            this.ui = H.ui.UI.createDefault(this.map, defaultLayers);
           }
           if (module === 'pano') {
             platform.configure(H.map.render.panorama.RenderEngine);
@@ -82,14 +79,24 @@ angular.module('angular-here-maps')
           }
         }.bind(this));
 
-        var createMapMarker = function(coordinates, icon, id) {
-          var markerTemplate;
+        var createMapMarker = function(group, coordinates, icon, id) {
+          var markerTemplate,
+            events,
+            idAttr = '';
 
-          if (icon.template || icon.templateUrl) {
+          if (id) {
+            idAttr = 'id=' + id;
+          }
+
+          if (icon && icon.events) {
+            events = icon.events;
+          }
+
+          if (icon && (icon.template || icon.templateUrl)) {
             if (icon.templateUrl) {
-              markerTemplate = '<template-marker ng-cloak id=' + id + ' templateurl=' + icon.templateUrl + '></template-marker>';
+              markerTemplate = '<template-marker ng-cloak ' + idAttr + ' templateurl=' + icon.templateUrl + '></template-marker>';
             } else {
-              markerTemplate = '<marker-icon id=' + id + '>' + icon.template + '</marker-icon>';
+              markerTemplate = '<marker-icon ' + idAttr + '>' + icon.template + '</marker-icon>';
             }
             var markerIcon = new H.map.DomIcon(markerTemplate);
             marker = new H.map.DomMarker(coordinates, {
@@ -98,18 +105,21 @@ angular.module('angular-here-maps')
           } else {
             marker = new H.map.Marker(coordinates);
           }
+
+          group.addEventListener('tap', function() {
+            if (events) {
+              events.tap(coordinates);
+            }
+          }.bind(this, coordinates), false);
         };
 
-        var createMarkerEvents = function(windowTemplate, group, coordinates, events) {
+        var createMarkerEvents = function(windowTemplate, group, coordinates) {
 
           $scope.removeBubble = function() {
             markerWindow.close();
           };
 
           group.addEventListener('tap', function() {
-            if (events) {
-              events.tap(coordinates);
-            }
             if (markerWindow) {
               this.ui.removeBubble(markerWindow);
             }
@@ -127,12 +137,7 @@ angular.module('angular-here-maps')
         }.bind(this);
 
         var createMarkerWindows = function(group, coordinates, icon) {
-          var events,
-            windowTemplate;
-
-          if (icon && icon.events) {
-            events = icon.events;
-          }
+          var windowTemplate;
 
           if (icon && icon.window) {
             if (icon.window.templateUrl) {
@@ -141,7 +146,7 @@ angular.module('angular-here-maps')
               windowTemplate = '<marker-window>' + icon.window.template + '</marker-window>';
             }
             if (icon.window.template || icon.window.templateUrl) {
-              createMarkerEvents(windowTemplate, group, coordinates, events);
+              createMarkerEvents(windowTemplate, group, coordinates);
             }
           }
         };
@@ -178,7 +183,7 @@ angular.module('angular-here-maps')
 
           var icon = this.getCurrentIcon(defaultIcon, currentIcon);
 
-          createMapMarker(coordinates, icon, id);
+          createMapMarker(group, coordinates, icon, id);
           createMarkerWindows(group, coordinates, icon);
 
           this.map.addObject(group);
