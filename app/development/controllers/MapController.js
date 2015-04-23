@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angular-here-maps-development')
-  .controller('MapController', function($scope) {
+  .controller('MapController', function($scope, $window) {
     $scope.iconContent = 'ABC';
     $scope.newIconContent = 'GHI';
     $scope.windowContent = 'DEF';
@@ -17,10 +17,15 @@ angular.module('angular-here-maps-development')
         lng: -0.14,
         lat: 51.513872
       },
-      icon : {
-        template: '<div>a</div>',
+      icon: {
+        templateUrl: 'development/templates/icon test.html',
         window: {
-          template: '<div>this is the window template</div>'
+          template: 'hello'
+        },
+        events: {
+          tap: function() {
+            $window.alert('test');
+          }
         }
       }
     };
@@ -43,10 +48,7 @@ angular.module('angular-here-maps-development')
             lat: 51.513872
           },
           icon: {
-            template: 'hello',
-            window: {
-              templateUrl: 'development/templates/window.html'
-            }
+            template: '<div>new icon</div>'
           },
           id: 1
         },
@@ -56,16 +58,14 @@ angular.module('angular-here-maps-development')
             lat: 51.513872
           },
           icon: {
-            template: 'hello again',
             window: {
-              template: 'testing'
+              template: 'icon window template test'
             }
           },
           id: 2
         }
       ],
       icon: {
-        templateUrl: 'development/templates/icon.html',
         window: {
           templateUrl: 'development/templates/window.html'
         }

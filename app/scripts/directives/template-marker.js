@@ -14,6 +14,7 @@ angular.module('angular-here-maps')
         scope.id = attrs.id;
       },
       templateUrl: function(tElement, tAttrs) {
+        tElement.addClass('marker');
         return tAttrs.templateurl;
       }
     };

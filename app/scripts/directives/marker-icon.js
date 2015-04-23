@@ -11,6 +11,7 @@ angular.module('angular-here-maps')
     return {
       scope: true,
       link: function(scope, element, attrs) {
+        element.addClass('marker');
         scope.id = attrs.id;
       }
     };

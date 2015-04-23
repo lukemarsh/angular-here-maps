@@ -8,7 +8,10 @@ describe('Directive: markers', function () {
   var element,
     scope,
     compile,
-    markersElement;
+    markersElement,
+    mapController,
+    locations,
+    icon;
 
   beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope.$new();
@@ -18,6 +21,7 @@ describe('Directive: markers', function () {
   function compileDirective(tpl) {
     element = angular.element(tpl);
     compile(element)(scope);
+    mapController = element.controller('map');
     scope.$digest();
   }
 
@@ -62,15 +66,26 @@ describe('Directive: markers', function () {
       compileDirective(element);
 
       markersElement = element.find('markers');
+
+      locations = markersElement.isolateScope().locations;
+      icon = markersElement.isolateScope().icon;
     });
 
     it('the map should have one marker', function() {
-      expect(markersElement.isolateScope().locations).toBeDefined();
-      expect(markersElement.isolateScope().locations.length).toEqual(1);
+      expect(locations).toBeDefined();
+      expect(locations.length).toEqual(1);
     });
 
     it('should have access to icon', function() {
-      expect(markersElement.isolateScope().icon).toBeDefined();
+      expect(icon).toBeDefined();
+    });
+
+    it('should call addMarkerToMap', function() {
+      for (var i = 0; i < locations.length; i++) {
+        spyOn(mapController, 'addMarkerToMap').and.callThrough();
+        mapController.addMarkerToMap(locations[i].coordinates, icon, locations[i].icon, locations[i].id);
+        expect(mapController.addMarkerToMap).toHaveBeenCalledWith(locations[i].coordinates, icon, locations[i].icon, locations[i].id);
+      }
     });
   });
 });

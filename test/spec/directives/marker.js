@@ -21,36 +21,49 @@ describe('Directive: marker', function () {
   }
 
   beforeEach(function() {
-    scope.iconContent = 'ABC';
     scope.marker = {
       coordinates : {
         lat: 51,
         lng: -0.13
       },
       icon: {
-        template: '<div ng-bind="content"></div>',
-        data: {
-          content: scope.iconContent
-        }
+        template: 'icon template'
       }
     };
-
-    element = '<map><marker coordinates="marker.coordinates" icon="marker.icon"></marker></map>';
-    compileDirective(element);
-
-    markerElement = element.find('marker');
   });
 
-  it('element shouldn\'t be undefined', function() {
-    expect(element).not.toBeUndefined();
-  });
+  describe('Rendering the marker with coordinates', function() {
+    
+    beforeEach(function() {
+      element = '<map><marker coordinates="marker.coordinates"></marker></map>';
+      compileDirective(element);
 
-  describe('Rendering the marker with coordinate and type values', function() {
+      markerElement = element.find('marker');
+    });
+
     it('should have access to coordinates', function() {
       expect(markerElement.isolateScope().coordinates).toBeDefined();
       expect(markerElement.isolateScope().coordinates.lng).toEqual(-0.13);
       expect(markerElement.isolateScope().coordinates.lat).toEqual(51);
     });
+
+    it('addMarker() should be called', function() {
+      spyOn(markerElement.isolateScope(), 'addMarker');
+      markerElement.isolateScope().addMarker();
+      expect(markerElement.isolateScope().addMarker).toHaveBeenCalled();
+    });
+
+  });
+
+  describe('Rendering the marker with an icon', function() {
+    
+    beforeEach(function() {
+      element = '<map><marker icon="marker.icon"></marker></map>';
+      compileDirective(element);
+
+      markerElement = element.find('marker');
+    });
+
     it('should have access to icon', function() {
       expect(markerElement.isolateScope().icon).toBeDefined();
     });
@@ -73,12 +86,11 @@ describe('Directive: marker', function () {
       expect(markerElement.isolateScope().icon).toBeUndefined();
     });
 
-  });
-
-  describe('Accesing data of the icon', function() {
-    it('should contain the iconContent from the scope', function() {
-      expect(markerElement.isolateScope().icon.data).not.toBeUndefined();
+    it('addMarker() should not be called when coordinates have not been set', function() {
+      spyOn(markerElement.isolateScope(), 'addMarker');
+      expect(markerElement.isolateScope().addMarker).not.toHaveBeenCalled();
     });
+
   });
 
 });

@@ -16,15 +16,16 @@ angular.module('angular-here-maps')
       },
       restrict: 'E',
       link: function(scope, element, attrs, mapController) {
+        var icon = scope.icon || '';
 
-      	var addMarker = function() {
+      	scope.addMarker = function() {
           if (scope.coordinates) {
-            mapController.addMarkerToMap(scope.coordinates, scope.icon);
+            mapController.addMarkerToMap(scope.coordinates, icon);
           }
         };
 
       	scope.$watch('coordinates', function() {
-          addMarker();
+          scope.addMarker();
         });
       }
     };
