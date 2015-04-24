@@ -7,7 +7,8 @@ describe('Directive: circle', function () {
   var element,
     scope,
     compile,
-    circleElement;
+    circleElement,
+    mapController;
 
   beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope.$new();
@@ -17,6 +18,7 @@ describe('Directive: circle', function () {
   function compileDirective(tpl) {
     element = angular.element(tpl);
     compile(element)(scope);
+    mapController = element.controller('map');
     scope.$digest();
   }
 
@@ -28,7 +30,7 @@ describe('Directive: circle', function () {
       },
       radius: 1000,
       options: {
-        strokeColour: 'red',
+        strokeColor: 'red',
         lineWidth: 2,
         fillColor: 'blue'
       }
@@ -80,7 +82,7 @@ describe('Directive: circle', function () {
     });
   });
 
-  describe('Rendering the circle without values', function() {
+  describe('Rendering the circle without options or radius', function() {
 
     beforeEach(function() {
       element = '<map><circle></circle></map>';

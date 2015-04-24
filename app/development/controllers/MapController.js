@@ -64,10 +64,12 @@ angular.module('angular-here-maps-development')
     $scope.circle = {
       radius: 1000,
       options: {
-        strokeColour: 'red',
-        lineWidth: 4,
-        fillColor: 'green'
+        style: {
+          strokeColor: 'rgb(0,27.96)',
+          lineWidth: 1,
+          fillColor: 'rgba(0,27,96,0.1)'
+        }
       }
-    }
+    };
 
   });

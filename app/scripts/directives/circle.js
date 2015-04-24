@@ -9,6 +9,7 @@
 angular.module('angular-here-maps')
   .directive('circle', function () {
     return {
+      restrict: 'E',
       require: '^map',
       scope: {
         coordinates: '=',
@@ -16,17 +17,16 @@ angular.module('angular-here-maps')
         options: '='
       },
       link: function(scope, element, attrs, mapController) {
-        mapController.map.addObject(new H.map.Circle(
-          {lat: scope.coordinates.lat, lng: scope.coordinates.lng},
-          scope.radius,
-          {
-            style: {
-              strokeColour: scope.options.strokeColour,
-              lineWidth: scope.options.lineWidth,
-              fillColor: scope.options.fillColor
-            }
-          }
-        ));
+        if (scope.coordinates && scope.radius) {
+          mapController.map.addObject(new H.map.Circle(
+            {
+              lat: scope.coordinates.lat,
+              lng: scope.coordinates.lng
+            },
+            scope.radius,
+            scope.options ? scope.options : null
+          ));
+        }
       }
     };
   });

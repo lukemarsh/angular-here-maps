@@ -14,6 +14,38 @@ angular
 
 /**
  * @ngdoc directive
+ * @name angular-here-maps.directive:circle
+ * @description
+ * # circle
+ */
+angular.module('angular-here-maps')
+  .directive('circle', function () {
+    return {
+      restrict: 'E',
+      require: '^map',
+      scope: {
+        coordinates: '=',
+        radius: '=',
+        options: '='
+      },
+      link: function(scope, element, attrs, mapController) {
+        if (scope.coordinates && scope.radius) {
+          mapController.map.addObject(new H.map.Circle(
+            {
+              lat: scope.coordinates.lat,
+              lng: scope.coordinates.lng
+            },
+            scope.radius,
+            scope.options ? scope.options : null
+          ));
+        }
+      }
+    };
+  });
+;'use strict';
+
+/**
+ * @ngdoc directive
  * @name angularHereMapsApp.directive:map
  * @description
  * # map
@@ -91,7 +123,7 @@ angular.module('angular-here-maps')
           }
         }.bind(this));
 
-        var createMapMarker = function(group, coordinates, icon, id) {
+        this.createMapMarker = function(group, coordinates, icon, id) {
           var markerTemplate,
             events,
             idAttr = '';
@@ -104,25 +136,32 @@ angular.module('angular-here-maps')
             events = icon.events;
           }
 
-          if (icon && (icon.template || icon.templateUrl)) {
-            if (icon.templateUrl) {
-              markerTemplate = '<template-marker ng-cloak ' + idAttr + ' templateurl=' + icon.templateUrl + '></template-marker>';
+          if (icon) {
+            if (icon.template || icon.templateUrl) {
+              if (icon.templateUrl) {
+                markerTemplate = '<template-marker ng-cloak ' + idAttr + ' templateurl="' + icon.templateUrl + '"></template-marker>';
+              } else {
+                markerTemplate = '<marker-icon ' + idAttr + '>' + icon.template + '</marker-icon>';
+              }
+              var markerIcon = new H.map.DomIcon(markerTemplate);
+              marker = new H.map.DomMarker(coordinates, {
+                icon: markerIcon
+              });
             } else {
-              markerTemplate = '<marker-icon ' + idAttr + '>' + icon.template + '</marker-icon>';
+              marker = new H.map.Marker(coordinates);
             }
-            var markerIcon = new H.map.DomIcon(markerTemplate);
-            marker = new H.map.DomMarker(coordinates, {
-              icon: markerIcon
-            });
-          } else {
-            marker = new H.map.Marker(coordinates);
+
+            group.addEventListener('tap', function() {
+              if (events) {
+                events.tap(coordinates);
+              }
+            }.bind(this, coordinates), false);
+            
           }
 
-          group.addEventListener('tap', function() {
-            if (events) {
-              events.tap(coordinates);
-            }
-          }.bind(this, coordinates), false);
+          return {
+            markerTemplate: markerTemplate
+          };
         };
 
         var createMarkerEvents = function(windowTemplate, group, coordinates) {
@@ -148,7 +187,7 @@ angular.module('angular-here-maps')
           }.bind(this, coordinates), false);
         }.bind(this);
 
-        var createMarkerWindows = function(group, coordinates, icon) {
+        this.createMarkerWindows = function(group, coordinates, icon) {
           var windowTemplate;
 
           if (icon && icon.window) {
@@ -161,6 +200,8 @@ angular.module('angular-here-maps')
               createMarkerEvents(windowTemplate, group, coordinates);
             }
           }
+
+          return windowTemplate;
         };
 
         this.getCurrentIcon = function(defaultIcon, currentIcon) {
@@ -175,6 +216,10 @@ angular.module('angular-here-maps')
           if (currentIcon && currentIcon.templateUrl) {
             delete icon.template;
             icon.templateUrl = currentIcon.templateUrl;
+          }
+
+          if (currentIcon && currentIcon.events) {
+            icon.events = currentIcon.events;
           }
 
           if (currentIcon && currentIcon.window && currentIcon.window.template) {
@@ -195,11 +240,13 @@ angular.module('angular-here-maps')
 
           var icon = this.getCurrentIcon(defaultIcon, currentIcon);
 
-          createMapMarker(group, coordinates, icon, id);
-          createMarkerWindows(group, coordinates, icon);
+          this.createMapMarker(group, coordinates, icon, id);
+          this.createMarkerWindows(group, coordinates, icon);
 
           this.map.addObject(group);
-          group.addObject(marker);
+          if (marker) {
+            group.addObject(marker);
+          }
         };
 
         this.map.addEventListener('mapviewchangeend', function() {
