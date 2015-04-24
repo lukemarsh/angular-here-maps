@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angular-here-maps-development')
-  .controller('MapController', function($scope, $window) {
+  .controller('MapController', function($scope) {
     $scope.map = {
       zoom : 14,
       center : { 
