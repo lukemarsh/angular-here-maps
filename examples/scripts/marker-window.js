@@ -14,7 +14,7 @@ angular
   .controller('MapController', function($scope) {
     $scope.map = {
       zoom : 14,
-      center : { 
+      center : {
         lng: -0.135559,
         lat: 51.513872
       }
@@ -24,9 +24,12 @@ angular
         lng: -0.14,
         lat: 51.513872
       },
+      test: {
+        test: 'test'
+      },
       icon: {
         window: {
-          template: 'icon params = latitude: {{marker.coordinates.lat}}, longitude: {{marker.coordinates.lng}}'
+          template: 'icon params = latitude: {{marker.test.test}}, longitude: {{marker.coordinates.lng}}'
         }
       }
     };

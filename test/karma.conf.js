@@ -22,12 +22,13 @@ module.exports = function(config) {
       'bower_components/angular/angular.js',
       'bower_components/lodash/lodash.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      'http://js.api.here.com/v3/3.0/mapsjs-core.js',
-      'http://js.api.here.com/v3/3.0/mapsjs-service.js',
-      'http://js.api.here.com/v3/3.0/mapsjs-mapevents.js',
-      'http://js.api.here.com/v3/3.0/mapsjs-ui.js',
-      'http://js.api.here.com/v3/3.0/mapsjs-pano.js',
+      'bower_components/here-maps-api/mapsjs-core.js',
+      'bower_components/here-maps-api/modules/service/mapsjs-service.js',
+      'bower_components/here-maps-api/modules/mapevents/mapsjs-mapevents.js',
+      'bower_components/here-maps-api/modules/ui/mapsjs-ui.js',
+      'bower_components/here-maps-api/modules/pano/mapsjs-pano.js',
       'app/scripts/**/*.js',
+      'test/spec/support/MapConfig.js',
       'test/spec/**/*.js'
     ],
 

@@ -57,6 +57,10 @@ module.exports = function (grunt) {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
+      compass: {
+        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+        tasks: ['compass:server', 'autoprefixer']
+      },
       gruntfile: {
         files: ['Gruntfile.js']
       },
@@ -171,11 +175,38 @@ module.exports = function (grunt) {
       server: '.tmp'
     },
 
+    // Add vendor prefixed styles
+    autoprefixer: {
+      options: {
+        browsers: ['last 1 version']
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '.tmp/styles/',
+          src: '{,*/}*.css',
+          dest: '.tmp/styles/'
+        }]
+      }
+    },
+
     // Automatically inject Bower components into the app
     wiredep: {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
         ignorePath:  /\.\.\//
+      }
+    },
+
+    compass: {
+      options: {
+        sassDir: '<%= yeoman.app %>/styles',
+        cssDir: 'app/styles'
+      },
+      server: {
+        options: {
+          debugInfo: true
+        }
       }
     },
 
@@ -229,8 +260,11 @@ module.exports = function (grunt) {
 
     // Run some tasks in parallel to speed up the build process
     concurrent: {
+      server: [
+        'compass:server'
+      ],
       dist: [
-        'copy:concat'
+        'compass:dist'
       ]
     },
 

@@ -72,4 +72,8 @@ angular.module('angular-here-maps-development')
       }
     };
 
+    $scope.searchbox = {
+      template: 'development/templates/searchbox.html'
+    };
+
   });

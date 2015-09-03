@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width" />
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" type="text/css" href="bower_components/here-maps-api/modules/ui/mapsjs-ui.css">
+    <link rel="stylesheet" href="styles/autocomplete.css">
     <style type="text/css">
     * {
       box-sizing : border-box;
@@ -36,6 +37,7 @@
     <![endif]-->
 
     <map zoom="map.zoom" center="map.center">
+      <search-box template="searchbox.template"></search-box>
       <marker coordinates="marker.coordinates" icon="marker.icon"></marker>
       <markers locations="markers.locations" icon="markers.icon"></markers>
       <circle coordinates="marker.coordinates" radius="circle.radius" options="circle.options"></circle>
@@ -55,6 +57,7 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/helpers.js"></script>
     <script src="scripts/services/MapConfig.js"></script>
+    <script src="scripts/services/MapSearch.js"></script>
     <!-- directives -->
     <script src="scripts/directives/map.js"></script>
     <script src="scripts/directives/marker.js"></script>
@@ -63,6 +66,7 @@
     <script src="scripts/directives/template-marker.js"></script>
     <script src="scripts/directives/template-window.js"></script>
     <script src="scripts/directives/circle.js"></script>
+    <script src="scripts/directives/search-box.js"></script>
 
     <!-- development -->
     <script src="development/app.js"></script>
