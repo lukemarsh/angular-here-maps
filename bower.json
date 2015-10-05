@@ -1,9 +1,9 @@
 {
   "name": "angular-here-maps",
   "main": "./dist/angular-here-maps.min.js",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "dependencies": {
-    "angular": ">=1.3.0",
+    "angular": ">=1.2.8",
     "lodash": "~3.6.0",
     "bind-polyfill": "~1.0.0"
   },
@@ -22,8 +22,8 @@
     "tmp"
   ],
   "devDependencies": {
-    "angular-mocks": ">=1.3.x",
-    "angular-scenario": ">=1.3.x"
+    "angular-mocks": ">=1.2.x",
+    "angular-scenario": ">=1.2.x"
   },
   "appPath": "app"
 }
