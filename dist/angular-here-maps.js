@@ -273,9 +273,8 @@ angular.module('angular-here-maps')
       	scope.$watch('coordinates', function() {
           if (coordinates) {
             mapController.removeMarker();
-          } else {
-            scope.addMarker();
           }
+          scope.addMarker();
         });
       }
     };
