@@ -35,6 +35,7 @@ angular.module('angular-here-maps')
 
         $scope.zoom = $scope.helpers.useDotNotation($scope, $attrs.zoom);
         $scope.center = $scope.helpers.useDotNotation($scope, $attrs.center);
+        $scope.bounds = $scope.helpers.useDotNotation($scope, $attrs.bounds);
 
         if (MapConfig.libraries()) {
           modules = MapConfig.libraries().split(',');
@@ -74,6 +75,11 @@ angular.module('angular-here-maps')
 
         if ($scope.center) {
           this.map.setCenter($scope.center);
+        }
+
+        if ($scope.bounds) {
+          var bbox = new H.geo.Rect($scope.bounds[0], $scope.bounds[1], $scope.bounds[2], $scope.bounds[3]);
+          this.map.setViewBounds(bbox);
         }
 
         window.addEventListener('resize', function () {
