@@ -18,7 +18,8 @@ angular.module('angular-here-maps')
           modules,
           behavior,
           marker,
-          markerWindow;
+          markerWindow,
+          group;
 
         $scope.zoom = $scope.helpers.useDotNotation($scope, $attrs.zoom);
         $scope.center = $scope.helpers.useDotNotation($scope, $attrs.center);
@@ -112,7 +113,7 @@ angular.module('angular-here-maps')
                 events.tap(coordinates);
               }
             }.bind(this, coordinates), false);
-            
+
           }
 
           return {
@@ -187,8 +188,12 @@ angular.module('angular-here-maps')
           return icon;
         };
 
+        this.removeMarker = function() {
+          this.map.removeObject(group);
+        };
+
         this.addMarkerToMap = function(coordinates, defaultIcon, currentIcon, id) {
-          var group = new H.map.Group();
+          group = new H.map.Group();
 
           var icon = this.getCurrentIcon(defaultIcon, currentIcon);
 

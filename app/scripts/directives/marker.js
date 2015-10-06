@@ -17,15 +17,21 @@ angular.module('angular-here-maps')
       restrict: 'E',
       link: function(scope, element, attrs, mapController) {
         var icon = scope.icon || '';
+        var coordinates;
 
       	scope.addMarker = function() {
           if (scope.coordinates) {
+            coordinates = scope.coordinates;
             mapController.addMarkerToMap(scope.coordinates, icon);
           }
         };
 
       	scope.$watch('coordinates', function() {
-          scope.addMarker();
+          if (coordinates) {
+            mapController.removeMarker();
+          } else {
+            scope.addMarker();
+          }
         });
       }
     };

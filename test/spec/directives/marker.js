@@ -33,7 +33,7 @@ describe('Directive: marker', function () {
   });
 
   describe('Rendering the marker with coordinates', function() {
-    
+
     beforeEach(function() {
       element = '<map><marker coordinates="marker.coordinates"></marker></map>';
       compileDirective(element);
@@ -55,8 +55,35 @@ describe('Directive: marker', function () {
 
   });
 
+  describe('Removing marker from map if coordinates change', function() {
+
+    beforeEach(function() {
+      element = '<map><marker coordinates="marker.coordinates"></marker></map>';
+      compileDirective(element);
+
+      markerElement = element.find('marker');
+    });
+
+    it('should call the removeMarker function when coordinates change', function() {
+      var mapController = markerElement.controller('map');
+      spyOn(mapController, 'removeMarker');
+
+      scope.marker = {
+        coordinates : {
+          lat: 52,
+          lng: -0.14
+        }
+      };
+
+      scope.$apply();
+
+      expect(mapController.removeMarker).toHaveBeenCalled();
+    });
+
+  });
+
   describe('Rendering the marker with an icon', function() {
-    
+
     beforeEach(function() {
       element = '<map><marker icon="marker.icon"></marker></map>';
       compileDirective(element);
