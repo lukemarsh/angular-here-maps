@@ -49,7 +49,7 @@ angular.module('angular-here-maps')
 
         defaultLayers = platform.createDefaultLayers(512, MapConfig.pixelPerInch());
 
-        this.map = new H.Map(
+        $scope.mapObject = new H.Map(
           $element[0],
           defaultLayers.normal.map,
           {
@@ -58,31 +58,44 @@ angular.module('angular-here-maps')
         );
 
         if ($scope.zoom) {
-          this.map.setZoom($scope.zoom);
+          $scope.mapObject.setZoom($scope.zoom);
         }
 
         if ($scope.center) {
-          this.map.setCenter($scope.center);
+          $scope.mapObject.setCenter($scope.center);
         }
 
+        var setViewBounds = function(bounds) {
+          var bbox = new H.geo.Rect(bounds[0], bounds[1], bounds[2], bounds[3]);
+          $scope.mapObject.setViewBounds(bbox);
+        };
+
         if ($scope.bounds) {
-          var bbox = new H.geo.Rect($scope.bounds[0], $scope.bounds[1], $scope.bounds[2], $scope.bounds[3]);
-          this.map.setViewBounds(bbox);
+          setViewBounds($scope.bounds);
+        }
+
+        if ($attrs.bounds) {
+          $scope.$watch($attrs.bounds, function() {
+            if ($scope.bounds) {
+              $scope.bounds = $scope.helpers.useDotNotation($scope, $attrs.bounds);
+              setViewBounds($scope.bounds);
+            }
+          });
         }
 
         window.addEventListener('resize', function () {
-          this.map.getViewPort().resize();
+          $scope.mapObject.getViewPort().resize();
         }.bind(this));
 
         _.each(modules, function(module) {
           if (module === 'ui') {
-            this.ui = H.ui.UI.createDefault(this.map, defaultLayers);
+            this.ui = H.ui.UI.createDefault($scope.mapObject, defaultLayers);
           }
           if (module === 'pano') {
             platform.configure(H.map.render.panorama.RenderEngine);
           }
           if (module === 'mapevents') {
-            behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
+            behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents($scope.mapObject));
           }
         }.bind(this));
 
@@ -195,7 +208,7 @@ angular.module('angular-here-maps')
         };
 
         this.removeMarker = function() {
-          this.map.removeObject(group);
+          $scope.mapObject.removeObject(group);
         };
 
         this.addMarkerToMap = function(coordinates, defaultIcon, currentIcon, id) {
@@ -206,13 +219,15 @@ angular.module('angular-here-maps')
           this.createMapMarker(group, coordinates, icon, id);
           this.createMarkerWindows(group, coordinates, icon);
 
-          this.map.addObject(group);
+          marker.setData(coordinates);
+
+          $scope.mapObject.addObject(group);
           if (marker) {
             group.addObject(marker);
           }
         };
 
-        this.map.addEventListener('mapviewchangeend', function() {
+        $scope.mapObject.addEventListener('mapviewchangeend', function() {
           $scope.refreshMarkers();
         });
       }
