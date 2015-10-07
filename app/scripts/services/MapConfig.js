@@ -30,6 +30,9 @@ angular.module('angular-here-maps')
         },
         libraries: function(libraries) {
           return mapOptions.libraries || libraries;
+        },
+        useHTTPS: function(https) {
+          return mapOptions.useHTTPS || https;
         }
       };
     };
