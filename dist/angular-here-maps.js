@@ -56,7 +56,8 @@ angular.module('angular-here-maps')
 
         var platform = new H.service.Platform({
           'app_id': MapConfig.appId(),
-          'app_code': MapConfig.appCode()
+          'app_code': MapConfig.appCode(),
+          useHTTPS: MapConfig.useHTTPS()
         });
 
         defaultLayers = platform.createDefaultLayers(512, MapConfig.pixelPerInch());
