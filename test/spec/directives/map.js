@@ -207,7 +207,7 @@ describe('Directive: map', function () {
           templateUrl: 'default icon template url'
         };
         currentIcon = {
-          template: 'current icon template' 
+          template: 'current icon template'
         };
 
         icon = mapController.getCurrentIcon(defaultIcon, currentIcon);
@@ -219,7 +219,7 @@ describe('Directive: map', function () {
           template: 'default icon template'
         };
         currentIcon = {
-          templateUrl: 'current icon template url' 
+          templateUrl: 'current icon template url'
         };
 
         icon = mapController.getCurrentIcon(defaultIcon, currentIcon);
@@ -229,7 +229,7 @@ describe('Directive: map', function () {
     });
 
     describe('createMapMarker()', function() {
-      
+
       beforeEach(function() {
         group = new H.map.Group();
 
