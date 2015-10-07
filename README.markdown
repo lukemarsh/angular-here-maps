@@ -4,7 +4,7 @@
 
 For pull requests please see branching strategy below! 
 
-Master (1.0.9): [![Build Status](https://travis-ci.org/lukemarsh/angular-here-maps.svg?branch=master)](https://travis-ci.org/lukemarsh/angular-here-maps)
+Master (1.2.6): [![Build Status](https://travis-ci.org/lukemarsh/angular-here-maps.svg?branch=master)](https://travis-ci.org/lukemarsh/angular-here-maps)
 
 task board: [![Stories in Ready](https://badge.waffle.io/lukeamarsh/angular-here-maps.png?label=ready&title=Ready)](https://waffle.io/lukemarsh/angular-here-maps)
 
@@ -22,21 +22,16 @@ Add Angular:
 <script src="/path/to/bower_components/angular/angular.min.js" type="text/javascript"></script>
 ```
 
-Retrieve the Here Maps library files from bower:
-
-```sh
-bower install here-maps-api --save
-```
-
 Include the here-maps-api JS and CSS files
 
 ```html
-<link rel="stylesheet" href="/path/to/bower_components/here-maps-api/modules/ui/mapsjs-ui.css" />
-<script src="/path/to/bower_components/here-maps-api/modules/mapsjs-core.js"></script>
-<script src="/path/to/bower_components/here-maps-api/modules/service/mapsjs-service.js"></script>
-<script src="/path/to/bower_components/here-maps-api/modules/mapevents/mapsjs-mapevents.js"></script>
-<script src="/path/to/bower_components/here-maps-api/modules/ui/mapsjs-ui.js"></script>
-<script src="/path/to/bower_components/here-maps-api/modules/pano/mapsjs-pano.js"></script>
+<link rel="stylesheet" href="http://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+
+<script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://js.api.here.com/v3/3.0/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://js.api.here.com/v3/3.0/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://js.api.here.com/v3/3.0/mapsjs-pano.js" type="text/javascript" charset="utf-8"></script>
 ```
 
 
@@ -133,4 +128,4 @@ branch and issuing a PR with the updated documentation page, or by opening an is
 
 ### Branching Scheme
 
-- master: points to the active targeted next release branch (1.0.9)
+- master: points to the active targeted next release branch (1.2.6)
