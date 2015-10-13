@@ -129,6 +129,7 @@ angular.module('angular-here-maps')
             }
 
             group.addEventListener('tap', function() {
+              log('test')
               if (events) {
                 events.tap(coordinates);
               }
@@ -195,6 +196,10 @@ angular.module('angular-here-maps')
             icon.templateUrl = currentIcon.templateUrl;
           }
 
+          if (currentIcon && currentIcon.events) {
+            icon.events = currentIcon.events;
+          }
+
           if (currentIcon && currentIcon.window && currentIcon.window.template) {
             delete icon.window.templateUrl;
             icon.window.template = currentIcon.window.template;
@@ -220,10 +225,9 @@ angular.module('angular-here-maps')
           this.createMapMarker(group, coordinates, icon, id);
           this.createMarkerWindows(group, coordinates, icon);
 
-          marker.setData(coordinates);
-
           $scope.mapObject.addObject(group);
           if (marker) {
+            marker.setData(coordinates);
             group.addObject(marker);
           }
         };
