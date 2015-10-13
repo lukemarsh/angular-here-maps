@@ -141,7 +141,6 @@ angular.module('angular-here-maps')
             }
 
             group.addEventListener('tap', function() {
-              log('test')
               if (events) {
                 events.tap(coordinates);
               }
