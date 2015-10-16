@@ -13,11 +13,12 @@ angular.module('angular-here-maps')
       require: '^map',
       scope: {
         locations: '=',
-        icon: '='
+        icon: '=',
+        zIndex: '='
       },
       link: function(scope, element, attrs, mapController) {
         _.each(scope.locations, function(location) {
-          mapController.addMarkerToMap(location.coordinates, scope.icon, location.icon, location.id);
+          mapController.addMarkerToMap(location.coordinates, scope.zIndex, scope.icon, location.icon, location.id);
         });
       }
     };

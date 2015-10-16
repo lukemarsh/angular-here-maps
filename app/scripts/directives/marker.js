@@ -12,7 +12,8 @@ angular.module('angular-here-maps')
       require: '^map',
       scope: {
       	coordinates: '=',
-        icon: '='
+        icon: '=',
+        zIndex: '='
       },
       restrict: 'E',
       link: function(scope, element, attrs, mapController) {
@@ -22,7 +23,7 @@ angular.module('angular-here-maps')
       	scope.addMarker = function() {
           if (scope.coordinates) {
             coordinates = scope.coordinates;
-            mapController.addMarkerToMap(scope.coordinates, icon);
+            mapController.addMarkerToMap(scope.coordinates, scope.zIndex, icon);
           }
         };
 

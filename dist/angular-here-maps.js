@@ -228,7 +228,7 @@ angular.module('angular-here-maps')
           $scope.mapObject.removeObject(group);
         };
 
-        this.addMarkerToMap = function(coordinates, defaultIcon, currentIcon, id) {
+        this.addMarkerToMap = function(coordinates, zIndex, defaultIcon, currentIcon, id) {
           group = new H.map.Group();
 
           var icon = this.getCurrentIcon(defaultIcon, currentIcon);
@@ -238,6 +238,7 @@ angular.module('angular-here-maps')
 
           $scope.mapObject.addObject(group);
           if (marker) {
+            marker.setZIndex(zIndex);
             marker.setData(coordinates);
             group.addObject(marker);
           }
@@ -281,7 +282,8 @@ angular.module('angular-here-maps')
       require: '^map',
       scope: {
       	coordinates: '=',
-        icon: '='
+        icon: '=',
+        zIndex: '='
       },
       restrict: 'E',
       link: function(scope, element, attrs, mapController) {
@@ -291,7 +293,7 @@ angular.module('angular-here-maps')
       	scope.addMarker = function() {
           if (scope.coordinates) {
             coordinates = scope.coordinates;
-            mapController.addMarkerToMap(scope.coordinates, icon);
+            mapController.addMarkerToMap(scope.coordinates, scope.zIndex, icon);
           }
         };
 
@@ -319,11 +321,12 @@ angular.module('angular-here-maps')
       require: '^map',
       scope: {
         locations: '=',
-        icon: '='
+        icon: '=',
+        zIndex: '='
       },
       link: function(scope, element, attrs, mapController) {
         _.each(scope.locations, function(location) {
-          mapController.addMarkerToMap(location.coordinates, scope.icon, location.icon, location.id);
+          mapController.addMarkerToMap(location.coordinates, scope.zIndex, scope.icon, location.icon, location.id);
         });
       }
     };

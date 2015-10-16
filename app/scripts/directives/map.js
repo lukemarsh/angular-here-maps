@@ -216,7 +216,7 @@ angular.module('angular-here-maps')
           $scope.mapObject.removeObject(group);
         };
 
-        this.addMarkerToMap = function(coordinates, defaultIcon, currentIcon, id) {
+        this.addMarkerToMap = function(coordinates, zIndex, defaultIcon, currentIcon, id) {
           group = new H.map.Group();
 
           var icon = this.getCurrentIcon(defaultIcon, currentIcon);
@@ -226,6 +226,7 @@ angular.module('angular-here-maps')
 
           $scope.mapObject.addObject(group);
           if (marker) {
+            marker.setZIndex(zIndex);
             marker.setData(coordinates);
             group.addObject(marker);
           }
