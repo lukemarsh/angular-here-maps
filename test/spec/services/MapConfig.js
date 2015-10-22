@@ -12,8 +12,8 @@ describe('Service: MapConfig', function () {
         MapConfigProvider = _MapConfigProvider_;
 
         MapConfigProvider.setOptions({
-          appId: 'Q4azLpJlFAp5pkcEbagu',
-          appCode: 'WT6i13vXvx1JbFky92wqjg',
+          appId: '',
+          appCode: '',
           libraries: 'ui,mapevents,pano',
           pixelRatio: 2,
           pixelPerInch: 320

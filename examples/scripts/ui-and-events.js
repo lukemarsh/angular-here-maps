@@ -6,8 +6,8 @@ angular
   ])
   .config(function(MapConfigProvider) {
     MapConfigProvider.setOptions({
-      appId: 'Q4azLpJlFAp5pkcEbagu',
-      appCode: 'WT6i13vXvx1JbFky92wqjg',
+      appId: '',
+      appCode: '',
       libraries: 'ui,mapevents'
     });
   })
