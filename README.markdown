@@ -112,9 +112,6 @@ grunt serve:examples
 
 and your browser will automatically open on `http://localhost:9000`.
 
-### Documentation
-The various directives are documented at [official site](http://lukemarsh.github.io/angular-here-maps/).
-
 ### Contributing
 
 Filing issues: 
