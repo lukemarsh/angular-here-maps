@@ -140,9 +140,9 @@ angular.module('angular-here-maps')
               marker = new H.map.Marker(coordinates);
             }
 
-            group.addEventListener('tap', function() {
+            group.addEventListener('tap', function(_coordinates_, event) {
               if (events) {
-                events.tap(coordinates);
+                events.tap(coordinates, event);
               }
             }.bind(this, coordinates), false);
 
