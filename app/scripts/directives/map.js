@@ -24,6 +24,8 @@ angular.module('angular-here-maps')
         $scope.zoom = $scope.helpers.useDotNotation($scope, $attrs.zoom);
         $scope.center = $scope.helpers.useDotNotation($scope, $attrs.center);
         $scope.bounds = $scope.helpers.useDotNotation($scope, $attrs.bounds);
+        $scope.wheelzoom = $scope.helpers.useDotNotation($scope, $attrs.wheelzoom);
+        $scope.draggable = $scope.helpers.useDotNotation($scope, $attrs.draggable);
 
         if (MapConfig.libraries()) {
           modules = MapConfig.libraries().split(',');
@@ -91,12 +93,33 @@ angular.module('angular-here-maps')
         _.each(modules, function(module) {
           if (module === 'ui') {
             this.ui = H.ui.UI.createDefault($scope.mapObject, defaultLayers);
+            $scope.mapObject.ui = this.ui;
           }
           if (module === 'pano') {
             platform.configure(H.map.render.panorama.RenderEngine);
           }
           if (module === 'mapevents') {
             behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents($scope.mapObject));
+
+            var toggleBehavior = function(behaviorState, mapBehavior) {
+              if (behaviorState === false) {
+                behavior.disable(H.mapevents.Behavior[mapBehavior]);
+              } else {
+                behavior.enable(H.mapevents.Behavior[mapBehavior]);
+              }
+            };
+
+            if ($attrs.wheelzoom) {
+              $scope.$watch($attrs.wheelzoom, function(wheelZoom) {
+                toggleBehavior(wheelZoom, 'WHEELZOOM');
+              });
+            }
+
+            if ($attrs.draggable) {
+              $scope.$watch($attrs.draggable, function(draggable) {
+                toggleBehavior(draggable, 'DRAGGING');
+              });
+            }
           }
         }.bind(this));
 
