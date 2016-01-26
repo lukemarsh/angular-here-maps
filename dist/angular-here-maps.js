@@ -19,7 +19,7 @@ angular
  * # map
  */
 angular.module('angular-here-maps')
-  .directive('map', function (MapConfig, $document, $compile) {
+  .directive('map', ['MapConfig', '$document', '$compile', function (MapConfig, $document, $compile) {
     return {
       template: '<div class="here-map"><div ng-transclude></div></div>',
       restrict: 'EA',
@@ -272,7 +272,7 @@ angular.module('angular-here-maps')
         });
       }
     };
-  });
+  }]);
 ;'use strict';
 
 /**
