@@ -219,10 +219,9 @@ angular.module('angular-here-maps')
           this.createMapMarker(group, coordinates, icon, id);
           this.createMarkerWindows(group, coordinates, icon);
 
-          marker.setData(coordinates);
-
           $scope.mapObject.addObject(group);
           if (marker) {
+            marker.setData(coordinates);
             group.addObject(marker);
           }
         };
