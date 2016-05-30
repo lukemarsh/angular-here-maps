@@ -10,9 +10,9 @@ describe('Directive: map', function () {
     compile,
     mapController;
 
-  beforeEach(inject(function ($rootScope, _$compile_) {
+  beforeEach(inject(function ($rootScope, $compile) {
     scope = $rootScope.$new();
-    compile = _$compile_;
+    compile = $compile;
   }));
 
   function compileDirective(tpl) {

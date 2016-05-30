@@ -14,11 +14,11 @@ angular.module('angular-here-maps-development')
     };
     $scope.marker = {
       coordinates : {
-        lng: -0.14,
+        lng: -0.15,
         lat: 51.513872
       },
       icon: {
-        templateUrl: 'development/templates/icon test.html',
+        templateUrl: 'development/templates/icon.html',
         window: {
           template: 'hello'
         },
@@ -48,7 +48,7 @@ angular.module('angular-here-maps-development')
             lat: 51.513872
           },
           icon: {
-            template: '<div>new icon</div>'
+            template: '<div class="icon">new icon</div>'
           },
           id: 1
         },

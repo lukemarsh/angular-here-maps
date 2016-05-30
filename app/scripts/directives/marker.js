@@ -11,22 +11,22 @@ angular.module('angular-here-maps')
     return {
       require: '^map',
       scope: {
-      	coordinates: '=',
-        icon: '='
+        coordinates: '=',
+        icon: '=',
+        zIndex: '='
       },
       restrict: 'E',
       link: function(scope, element, attrs, mapController) {
         var icon = scope.icon || '';
         var coordinates;
-
-      	scope.addMarker = function() {
+        scope.addMarker = function() {
           if (scope.coordinates) {
             coordinates = scope.coordinates;
             mapController.addMarkerToMap(scope.coordinates, icon);
           }
         };
 
-      	scope.$watch('coordinates', function() {
+        scope.$watch('coordinates', function() {
           if (coordinates) {
             mapController.removeMarker();
           }
