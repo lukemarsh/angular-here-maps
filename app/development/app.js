@@ -10,6 +10,9 @@ angular
     appCode: 'WT6i13vXvx1JbFky92wqjg',
     libraries: 'ui,mapevents,pano',
     pixelRatio: 2,
-    pixelPerInch: 320
+    pixelPerInch: 320,
+    useHTTPS: true,
+    zoomMax: 16,
+    zoomMin: 13
   });
 });

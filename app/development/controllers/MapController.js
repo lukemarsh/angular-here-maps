@@ -7,10 +7,12 @@ angular.module('angular-here-maps-development')
     $scope.windowContent = 'DEF';
     $scope.map = {
       zoom : 14,
-      center : { 
+      center : {
         lng: -0.135559,
         lat: 51.513872
-      }
+      },
+      animation: true,
+      typeMap: 'normal' // normal || satellite
     };
     $scope.marker = {
       coordinates : {
@@ -71,4 +73,52 @@ angular.module('angular-here-maps-development')
         }
       }
     };
+
+    $scope.moveCenter = function(){
+      $scope.map.center = {
+        lng: $scope.map.center.lng + (Math.random() / 100),
+        lat: $scope.map.center.lat + (Math.random() / 100)
+      };
+    };
+
+    $scope.mapOnLoad = function(platform, map){
+      $scope.platform = platform;
+      $scope.mapObj = map;
+    };
+
+    /**
+    * Example Center Map on Tap
+    */
+    $scope.mapEventOnTap = function(event, platform, map){
+      console.log('mapEventOnTap event', event, platform, map);
+      var coord = map.screenToGeo(event.currentPointer.viewportX, event.currentPointer.viewportY);
+      $scope.$apply(function(){
+        $scope.map.center = coord;
+      });
+    };
+
+    $scope.mapEventOnDoubleTap = function(event, platform, map){
+      console.log('mapEventOnDoubleTap event', event, platform, map);
+    };
+
+    $scope.mapEventOnDragStart = function(event, platform, map){
+      console.log('mapEventOnDragStart event', event, platform, map);
+    };
+
+    $scope.mapEventOnDrag = function(event, platform, map){
+      console.log('mapEventOnDrag event', event, platform, map);
+    };
+
+    $scope.mapEventOnDragEnd = function(event, platform, map){
+      console.log('mapEventOnDragEnd event', event, platform, map);
+    };
+
+    $scope.plusZoom = function(){
+      $scope.map.zoom++;
+    };
+
+    $scope.minusZoom = function(){
+      $scope.map.zoom--;
+    };
+
   });

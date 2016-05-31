@@ -32,11 +32,32 @@
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
-    <map zoom="map.zoom" center="map.center">
+    <map
+      zoom="map.zoom"
+      center="map.center"
+      animation="map.animation"
+      on-load="mapOnLoad"
+      on-tap="mapEventOnTap"
+      on-double-tap="mapEventOnDoubleTap"
+      on-drag-start="mapEventOnDragStart"
+      on-drag-end="mapEventOnDragEnd"
+      on-drag="mapEventOnDrag"
+      type="map.typeMap">
       <marker coordinates="marker.coordinates" icon="marker.icon"></marker>
       <markers locations="markers.locations" icon="markers.icon"></markers>
     </map>
+    <h3>Custom Buttons</h3>
+
+    Map Type:
+    <button ng-click="map.typeMap='satellite'">Satellite</button>
+    <button ng-click="map.typeMap='normal'">Normal</button><br>
+
+    Zoom:
+    <button ng-click="plusZoom()">+</button>
+    <button ng-click="minusZoom()">-</button><br>
+
+    Move Center:
+    <button ng-click="moveCenter()">Random</button><br>
 
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
