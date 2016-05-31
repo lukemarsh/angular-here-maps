@@ -7,23 +7,39 @@
  * # map
  */
 angular.module('angular-here-maps')
-  .directive('map', function (MapConfig, $document, $compile) {
+  .directive('map', ['MapConfig', '$document', '$compile', '$window', function (MapConfig, $document, $compile, $window) {
     return {
       template: '<div class="here-map"><div ng-transclude></div></div>',
       restrict: 'EA',
       transclude: true,
       replace: true,
-      controller: function($scope, $element, $attrs) {
-        var defaultLayers,
-          modules,
-          behavior,
-          marker,
-          markerWindow,
-          group;
+      scope: {
+        animation: '=',
+        bounds: '=',
+        center: '=',
+        draggable: '=',
+        onLoad: '=',
+        onTap: '=',
+        onDoubleTap: '=',
+        onDragStart: '=',
+        onDrag: '=',
+        onDragEnd: '=',
+        type: '=?',
+        layer: '=?',
+        wheelzoom: '=',
+        zoom: '='
+      },
+      controller: function($scope, $element) {
 
-        $scope.zoom = $scope.helpers.useDotNotation($scope, $attrs.zoom);
-        $scope.center = $scope.helpers.useDotNotation($scope, $attrs.center);
-        $scope.bounds = $scope.helpers.useDotNotation($scope, $attrs.bounds);
+        var defaultLayers;
+        var modules;
+        var behavior;
+        var marker;
+        var markerWindow;
+        var group;
+        var animation = $scope.animation || false;
+        $scope.type = angular.isDefined($scope.type) ? $scope.type : 'normal';
+        $scope.layer = angular.isDefined($scope.layer) ? $scope.layer : 'map';
 
         if (MapConfig.libraries()) {
           modules = MapConfig.libraries().split(',');
@@ -51,39 +67,55 @@ angular.module('angular-here-maps')
 
         $scope.mapObject = new H.Map(
           $element[0],
-          defaultLayers.normal.map,
+          defaultLayers[$scope.type][$scope.layer],
           {
             pixelRatio: MapConfig.pixelRatio()
           }
         );
 
-        if ($scope.zoom) {
-          $scope.mapObject.setZoom($scope.zoom);
-        }
+        var zoomMax = MapConfig.zoomMax();
+        var zoomMin = MapConfig.zoomMin();
 
-        if ($scope.center) {
-          $scope.mapObject.setCenter($scope.center);
-        }
+        $scope.$watch('zoom', function(zoom){
+          if (zoom) {
+            if (zoom > zoomMax){
+              $scope.zoom = zoomMax;
+              return;
+            }
+            if (zoom < zoomMin){
+              $scope.zoom = zoomMin;
+              return;
+            }
+            $scope.mapObject.setZoom(zoom, animation);
+          }
+        });
+
+        $scope.$watch('center', function(center){
+          if (center) {
+            $scope.mapObject.setCenter(center, animation);
+          }
+        });
 
         var setViewBounds = function(bounds) {
           var bbox = new H.geo.Rect(bounds[0], bounds[1], bounds[2], bounds[3]);
           $scope.mapObject.setViewBounds(bbox);
         };
 
-        if ($scope.bounds) {
-          setViewBounds($scope.bounds);
-        }
+        $scope.$watch('bounds', function(bounds) {
+          if (bounds) {
+            setViewBounds(bounds);
+          }
+        });
 
-        if ($attrs.bounds) {
-          $scope.$watch($attrs.bounds, function() {
-            if ($scope.bounds) {
-              $scope.bounds = $scope.helpers.useDotNotation($scope, $attrs.bounds);
-              setViewBounds($scope.bounds);
-            }
-          });
-        }
+        $scope.$watchGroup(['type', 'layer'], function(newValues) {
+          var type = newValues[0];
+          var layer = newValues[1];
+          if (type && layer) {
+            $scope.mapObject.setBaseLayer(defaultLayers[type][layer]);
+          }
+        });
 
-        window.addEventListener('resize', function () {
+        $window.addEventListener('resize', function () {
           $scope.mapObject.getViewPort().resize();
         }.bind(this));
 
@@ -228,7 +260,43 @@ angular.module('angular-here-maps')
 
         $scope.mapObject.addEventListener('mapviewchangeend', function() {
           $scope.refreshMarkers();
+          // $scope.zoom = $scope.mapObject.getZoom();
         });
+
+        if (angular.isFunction($scope.onLoad)){
+          $scope.onLoad(platform, $scope.mapObject);
+        }
+
+        if (angular.isFunction($scope.onTap)){
+          $scope.mapObject.addEventListener('tap', function(event) {
+            $scope.onTap(event, platform, $scope.mapObject);
+          });
+        }
+
+        if (angular.isFunction($scope.onDoubleTap)){
+          $scope.mapObject.addEventListener('dbltap', function(event) {
+            $scope.onDoubleTap(event, platform, $scope.mapObject);
+          });
+        }
+
+        if (angular.isFunction($scope.onDragStart)){
+          $scope.mapObject.addEventListener('dragstart', function(event) {
+            $scope.onDragStart(event, platform, $scope.mapObject);
+          });
+        }
+
+        if (angular.isFunction($scope.onDrag)){
+          $scope.mapObject.addEventListener('drag', function(event) {
+            $scope.onDrag(event, platform, $scope.mapObject);
+          });
+        }
+
+        if (angular.isFunction($scope.onDragEnd)){
+          $scope.mapObject.addEventListener('dragend', function(event) {
+            $scope.onDragEnd(event, platform, $scope.mapObject);
+          });
+        }
+
       }
     };
-  });
+  }]);

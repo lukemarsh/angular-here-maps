@@ -30,6 +30,15 @@ angular.module('angular-here-maps')
         },
         libraries: function(libraries) {
           return mapOptions.libraries || libraries;
+        },
+        useHTTPS: function(https) {
+          return mapOptions.useHTTPS || https;
+        },
+        zoomMax: function() {
+          return mapOptions.zoomMax || 18;
+        },
+        zoomMin: function() {
+          return mapOptions.zoomMin || 1;
         }
       };
     };
