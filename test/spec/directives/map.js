@@ -8,10 +8,11 @@ describe('Directive: map', function () {
   var element,
     scope,
     compile,
-    mapController;
+    mapController,
+    isolateScope;
 
-  beforeEach(inject(function ($rootScope, _$compile_) {
-    scope = $rootScope.$new();
+  beforeEach(inject(function (_$compile_, _$rootScope_) {
+    scope = _$rootScope_.$new();
     compile = _$compile_;
   }));
 
@@ -20,6 +21,7 @@ describe('Directive: map', function () {
     compile(element)(scope);
     scope.$digest();
     mapController = element.controller('map');
+    isolateScope = element.isolateScope();
   }
 
   beforeEach(function() {
@@ -28,10 +30,11 @@ describe('Directive: map', function () {
         lng: -0.13,
         lat: 51
       },
-      zoom: 14
+      zoom: 14,
+      type: 'satellite'
     };
 
-    element = '<map center="map.center" zoom="map.zoom"></map>';
+    element = '<map center="map.center" type="map.type" zoom="map.zoom"></map>';
     compileDirective(element);
   });
 
@@ -43,18 +46,24 @@ describe('Directive: map', function () {
     expect((element[0]).className).toContain('here-map');
   });
 
-  describe('Rendering the map with center and zoom values', function() {
+  describe('Rendering the map with center, zoom and type', function() {
 
     it('should have access to center', function() {
-      expect(element.scope().center).toBeDefined();
-      expect(element.scope().center.lng).toEqual(-0.13);
-      expect(element.scope().center.lat).toEqual(51);
+      expect(isolateScope.center).toBeDefined();
+      expect(isolateScope.center.lng).toEqual(-0.13);
+      expect(isolateScope.center.lat).toEqual(51);
     });
 
     it('should have access to zoom', function() {
-      expect(element.scope().zoom).toBeDefined();
-      expect(element.scope().zoom).toEqual(14);
+      expect(isolateScope.zoom).toBeDefined();
+      expect(isolateScope.zoom).toEqual(14);
     });
+
+    it('should have access to type', function() {
+      expect(isolateScope.type).toBeDefined();
+      expect(isolateScope.type).toEqual('satellite');
+    });
+
   });
 
   describe('Rendering the map without center values', function() {
@@ -65,7 +74,7 @@ describe('Directive: map', function () {
     });
 
     it('should not have access to center', function() {
-      expect(element.scope().center).toBeUndefined();
+      expect(isolateScope.center).toBeUndefined();
     });
   });
 
@@ -77,7 +86,11 @@ describe('Directive: map', function () {
     });
 
     it('should not have access to zoom', function() {
-      expect(element.scope().zoom).toBeUndefined();
+      expect(isolateScope.zoom).toBeUndefined();
+    });
+
+    it('should have default type normal', function() {
+      expect(isolateScope.type).toEqual('normal');
     });
 
   });
