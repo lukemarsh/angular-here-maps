@@ -2,7 +2,7 @@
 
 > AngularJS directives for Nokia Here Maps
 
-For pull requests please see branching strategy below! 
+For pull requests please see branching strategy below!
 
 Master (1.2.6): [![Build Status](https://travis-ci.org/lukemarsh/angular-here-maps.svg?branch=master)](https://travis-ci.org/lukemarsh/angular-here-maps)
 
@@ -60,7 +60,10 @@ Add some configuration settings:
         appCode: 'your Here Maps app code',
         libraries: 'ui,mapevents,pano',
         pixelRatio: 2, // Optional (Default: 1)
-        pixelPerInch: 320 // Optional (Default: 72)
+        pixelPerInch: 320, // Optional (Default: 72)
+        useHTTPS: true,
+        zoomMax: 16,
+        zoomMin: 13
     });
 })
 ```
@@ -74,17 +77,116 @@ default center and zoom for the maps:
 ```js
 $scope.map = {
   zoom : 14,
-  center : { 
+  center : {
     lng: -0.135559,
     lat: 51.513872
   }
 };
 ```
 
+You can choose the map type: default `normal` and `satellite`:
+
+```html
+<map zoom="map.zoom" center="map.center" type="map.type"></map>
+```
+
+```js
+$scope.map = {
+  zoom : 14,
+  center : {
+    lng: -0.135559,
+    lat: 51.513872
+  },
+  type: 'satellite'
+};
+```
+
+### Map Events
+
+#### onLoad Map
+
+```html
+<map center="map.center" on-load="mapOnLoad"></map>
+```
+
+```js
+$scope.mapOnLoad = function(platform, map){
+  var center = map.getCenter();
+};
+```
+
+#### onTap Map
+
+```html
+<map center="map.center" on-tap="mapEventOnTap"></map>
+```
+
+```js
+$scope.mapEventOnTap = function(event, platform, map){
+  // center map on tap
+  var coord = map.screenToGeo(event.currentPointer.viewportX, event.currentPointer.viewportY);
+  $scope.$apply(function(){
+    $scope.map.center = coord;
+  });
+};
+```
+
+#### onDoubleTap Map
+
+```html
+<map center="map.center" on-double-tap="mapEventOnDoubleTap"></map>
+```
+
+```js
+$scope.mapEventOnDoubleTap = function(event, platform, map){
+  // center map on double tap
+  var coord = map.screenToGeo(event.currentPointer.viewportX, event.currentPointer.viewportY);
+  $scope.$apply(function(){
+    $scope.map.center = coord;
+  });
+};
+```
+
+#### onDragStart Map
+
+```html
+<map center="map.center" on-drag-start="mapEventOnDragStart"></map>
+```
+
+```js
+$scope.mapEventOnDragStart = function(event, platform, map){
+
+};
+```
+
+#### onDrag Map
+
+```html
+<map center="map.center" on-drag="mapEventOnDrag"></map>
+```
+
+```js
+$scope.mapEventOnDrag = function(event, platform, map){
+
+};
+```
+
+#### onDragEnd Map
+
+```html
+<map center="map.center" on-drag-end="mapEventOnDragEnd"></map>
+```
+
+```js
+$scope.mapEventOnDragEnd = function(event, platform, map){
+
+};
+```
+
 If you plan to hack on the directives or want to run the example, first thing to do is to install NPM dependencies:
 
 ```shell
-npm install #note bower install is run on post install 
+npm install #note bower install is run on post install
 ```
 
 ### Building
@@ -117,13 +219,13 @@ The various directives are documented at [official site](http://lukemarsh.github
 
 ### Contributing
 
-Filing issues: 
+Filing issues:
  Prior to submiting an issue:
 - Search open/**closed** issues, src examples (./examples), and gitter! **Again please search!**
 - issues w/ plnkrs get attention quicker
 
-Pull requests more than welcome! If you're adding new features, it would be appreciated if you would provide some docs about the feature. 
-This can be done either by adding a card to our [Waffle.io board](https://waffle.io/lukemarsh/angular-here-maps), forking the website 
+Pull requests more than welcome! If you're adding new features, it would be appreciated if you would provide some docs about the feature.
+This can be done either by adding a card to our [Waffle.io board](https://waffle.io/lukemarsh/angular-here-maps), forking the website
 branch and issuing a PR with the updated documentation page, or by opening an issue for us to add the documentation to the site.
 
 ### Branching Scheme
