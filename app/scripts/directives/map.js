@@ -212,7 +212,7 @@ angular.module('angular-here-maps')
           return icon;
         };
 
-        this.removeMarker = function() {
+        this.removeMarker = function(group) {
           $scope.mapObject.removeObject(group);
         };
 
@@ -230,6 +230,7 @@ angular.module('angular-here-maps')
             marker.setData(coordinates);
             group.addObject(marker);
           }
+          return group;
         };
 
         $scope.mapObject.addEventListener('mapviewchangeend', function() {
