@@ -247,7 +247,7 @@ angular.module('angular-here-maps')
           return icon;
         };
 
-        this.removeMarker = function() {
+        this.removeMarker = function(group) {
           $scope.mapObject.removeObject(group);
         };
 
@@ -265,6 +265,7 @@ angular.module('angular-here-maps')
             marker.setData(coordinates);
             group.addObject(marker);
           }
+          return group;
         };
 
         $scope.mapObject.addEventListener('mapviewchangeend', function() {
@@ -312,17 +313,18 @@ angular.module('angular-here-maps')
       link: function(scope, element, attrs, mapController) {
         var icon = scope.icon || '';
         var coordinates;
+        var group;
 
       	scope.addMarker = function() {
           if (scope.coordinates) {
             coordinates = scope.coordinates;
-            mapController.addMarkerToMap(scope.coordinates, scope.zIndex, icon);
+            group = mapController.addMarkerToMap(scope.coordinates, scope.zIndex, icon);
           }
         };
 
       	scope.$watch('coordinates', function() {
           if (coordinates) {
-            mapController.removeMarker();
+            mapController.removeMarker(group);
           }
           scope.addMarker();
         });
